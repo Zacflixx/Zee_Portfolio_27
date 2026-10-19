@@ -5,7 +5,7 @@ import { srcset, src } from '../lib/cloudinary';
 
 const summaries = Object.fromEntries((await getCollection('case-studies')).map((e) => [e.id, e.data.summary]));
 ---
-<section class="section wrap" id="featured" aria-labelledby="featured-title">
+<section class="section wrap featured" id="featured" aria-labelledby="featured-title">
   <header class="head reveal">
     <p class="eyebrow">Selected case studies</p>
     <h2 class="h2" id="featured-title">How I think, step by step.</h2>
@@ -31,6 +31,7 @@ const summaries = Object.fromEntries((await getCollection('case-studies')).map((
   </ul>
 </section>
 <style>
+  .featured { border-top: 1px solid var(--line); margin-top: clamp(32px, 6vw, 80px); }
   .head { margin-bottom: 48px; display: grid; gap: 12px; }
   .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px; }
   @media (min-width: 760px) { .list { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; } }
