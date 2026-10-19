@@ -78,6 +78,33 @@ const filters = [
       </div>
     </section>
 
+    <!-- 3 · ABOUT: four strengths, piled as stacking cards -->
+    <section class="pile" aria-label="What I bring">
+      {strengths.map((s, i) => (
+        <article class={`card card-${s.kind}`} style={`--i:${i}`}>
+          <div class="card-in">
+            <div class="card-copy">
+              <span class="card-n">{s.n} / 04</span>
+              <h2 class="card-t">{s.t}</h2>
+              <p class="card-b">{s.b}</p>
+            </div>
+            <div class="card-art" aria-hidden="true">
+              {s.img && <img src={src(s.img.image, 720)} srcset={srcset(s.img.image)} sizes="(min-width: 900px) 40vw, 90vw" width={s.img.width} height={s.img.height} alt="" loading="lazy" decoding="async" />}
+              {s.flow && (
+                <ol class="flow">
+                  {['Research', 'Wireframes', 'Prototype', 'Pixels'].map((w, i) => <li style={`--k:${i}`}><span>{w}</span><i aria-hidden="true">→</i></li>)}
+                  <li class="tools"><span class="tl">Figma</span><span class="tl">Adobe XD</span><span class="tl">Sketch</span><span class="tl">Zeplin</span></li>
+                </ol>
+              )}
+              {s.kind === 'code' && (
+                <pre class="code"><code><span class="tk">&lt;button</span> <span class="at">class</span>=<span class="st">"cta"</span><span class="tk">&gt;</span>{'\n'}  Designed and built{'\n'}<span class="tk">&lt;/button&gt;</span>{'\n\n'}<span class="at">.cta</span> {'{'}{'\n'}  <span class="at">min-height</span>: 44px;{'\n'}  <span class="at">padding-inline</span>: 1.3em;{'\n'}{'}'}</code></pre>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </section>
+
     <!-- 5 · WORK: one explorer, every project visible, filter / sort / three views -->
     <section class="work" id="work" aria-labelledby="work-title">
       <div class="wrap">
@@ -148,33 +175,6 @@ const filters = [
         <p class="label">About</p>
         <p class="m-text" set:html={words(manifesto, ['actually', 'do,', 'behaviour'])} />
       </div>
-    </section>
-
-    <!-- 3 · ABOUT: four strengths, piled as stacking cards -->
-    <section class="pile" aria-label="What I bring">
-      {strengths.map((s, i) => (
-        <article class={`card card-${s.kind}`} style={`--i:${i}`}>
-          <div class="card-in">
-            <div class="card-copy">
-              <span class="card-n">{s.n} / 04</span>
-              <h2 class="card-t">{s.t}</h2>
-              <p class="card-b">{s.b}</p>
-            </div>
-            <div class="card-art" aria-hidden="true">
-              {s.img && <img src={src(s.img.image, 720)} srcset={srcset(s.img.image)} sizes="(min-width: 900px) 40vw, 90vw" width={s.img.width} height={s.img.height} alt="" loading="lazy" decoding="async" />}
-              {s.flow && (
-                <ol class="flow">
-                  {['Research', 'Wireframes', 'Prototype', 'Pixels'].map((w, i) => <li style={`--k:${i}`}><span>{w}</span><i aria-hidden="true">→</i></li>)}
-                  <li class="tools"><span class="tl">Figma</span><span class="tl">Adobe XD</span><span class="tl">Sketch</span><span class="tl">Zeplin</span></li>
-                </ol>
-              )}
-              {s.kind === 'code' && (
-                <pre class="code"><code><span class="tk">&lt;button</span> <span class="at">class</span>=<span class="st">"cta"</span><span class="tk">&gt;</span>{'\n'}  Designed and built{'\n'}<span class="tk">&lt;/button&gt;</span>{'\n\n'}<span class="at">.cta</span> {'{'}{'\n'}  <span class="at">min-height</span>: 44px;{'\n'}  <span class="at">padding-inline</span>: 1.3em;{'\n'}{'}'}</code></pre>
-              )}
-            </div>
-          </div>
-        </article>
-      ))}
     </section>
 
     <!-- 4 · ABOUT: the route, four countries -->
