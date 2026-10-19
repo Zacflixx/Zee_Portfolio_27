@@ -65,11 +65,11 @@ if (board) {
   const bar = $('[data-bar]');
   const countEl = $('[data-count]');
   const catOrder = ['Mobile app', 'Website', 'Dashboard'];
-  let filter = 'All', sort = 'featured', view = 'mosaic';
+  let filter = 'All', sort = 'default', view = 'mosaic';
 
   const matches = (c: HTMLElement) => filter === 'All' || (filter === 'Case study' ? c.dataset.feat === '1' : c.dataset.cat === filter);
   const sorters: Record<string, (a: HTMLElement, b: HTMLElement) => number> = {
-    featured: (a, b) => Number(b.dataset.feat) - Number(a.dataset.feat) || Number(a.dataset.i) - Number(b.dataset.i),
+    default: (a, b) => Number(a.dataset.i) - Number(b.dataset.i),
     az: (a, b) => a.dataset.title!.localeCompare(b.dataset.title!),
     type: (a, b) => catOrder.indexOf(a.dataset.cat!) - catOrder.indexOf(b.dataset.cat!) || Number(a.dataset.i) - Number(b.dataset.i),
   };
@@ -119,7 +119,7 @@ if (board) {
   let rt = 0;
   addEventListener('resize', () => { clearTimeout(rt); rt = window.setTimeout(layout, 120); });
   document.fonts?.ready.then(layout);
-  apply(); // default sort (featured first) from the start
+  apply();
 
   // Tilt: fine pointers, transform only
   if (finePointer && !reduced) {

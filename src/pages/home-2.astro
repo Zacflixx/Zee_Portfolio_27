@@ -157,7 +157,7 @@ const filters = [
           </div>
           <div class="grp" role="group" aria-label="Sort">
             <span class="g-l">Sort</span>
-            <button type="button" aria-pressed="true" data-sort="featured">Featured first</button>
+            <button type="button" aria-pressed="true" data-sort="default">Default</button>
             <button type="button" aria-pressed="false" data-sort="az">A–Z</button>
             <button type="button" aria-pressed="false" data-sort="type">Type</button>
           </div>
@@ -273,7 +273,15 @@ const filters = [
   .field { position: absolute; inset: 0; pointer-events: none; }
   .fl { position: absolute; left: var(--x); top: var(--y); width: var(--w); transform: rotate(var(--r)); will-change: transform; }
   .fl img { width: 100%; border-radius: 10px; box-shadow: var(--shadow); }
-  @media (max-width: 760px) { .fl { width: calc(var(--w) * 2.1); } .fl-extra { display: none; } }
+  /* Phones and tablets: covers get their own band above the intro, so nothing sits over the text */
+  @media (max-width: 899px) {
+    .hero { display: block; min-height: 0; }
+    .field { position: relative; inset: auto; height: min(66vw, 460px); margin-top: 8px; }
+    .fl { width: calc(var(--w) * 1.9); }
+    .fl-extra { display: none; }
+    .hero .hero-in { padding-block: 0 32px; }
+    .hero .name { margin-block: 2vh 3vh; }
+  }
   .hero-in { position: relative; z-index: 2; width: min(100% - 2 * var(--gutter), 1440px); margin-inline: auto; padding-block: 12vh 40px; }
   .kicker { display: flex; align-items: baseline; gap: 10px; font-weight: 600; font-size: 0.95rem; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: #1fae64; flex: none; translate: 0 -1px; box-shadow: 0 0 0 0 rgb(31 174 100 / 0.5); animation: ping 2.4s ease-out infinite; }
