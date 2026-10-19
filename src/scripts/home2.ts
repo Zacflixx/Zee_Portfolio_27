@@ -2,10 +2,11 @@
 // the page is a static, fully readable layout with a natively scrollable reel.
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Flip } from 'gsap/Flip';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, Flip);
 
 const root = document.documentElement;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -57,30 +58,104 @@ if (dlg && typeof dlg.showModal === 'function') {
   }, { passive: true });
 }
 
-/* ---------- Index: filter + cursor preview ---------- */
-const ixButtons = $$<HTMLButtonElement>('[data-ix-filter] button');
-ixButtons.forEach((b) =>
-  b.addEventListener('click', () => {
-    ixButtons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-    $$('.ix-list li').forEach((li) => (li.hidden = b.dataset.cat !== 'All' && li.dataset.cat !== b.dataset.cat));
-    ScrollTrigger.refresh();
-  }),
-);
-const preview = $('.preview');
-const list = $('.ix-list');
-if (preview && list && finePointer) {
-  const pImg = $<HTMLImageElement>('img', preview)!;
-  const px = gsap.quickTo(preview, 'x', { duration: 0.45, ease: 'power3' });
-  const py = gsap.quickTo(preview, 'y', { duration: 0.45, ease: 'power3' });
-  list.addEventListener('pointerover', (e) => {
-    const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-preview]');
-    if (!a) return;
-    if (pImg.getAttribute('src') !== a.dataset.preview) pImg.src = a.dataset.preview!;
-    pImg.style.background = a.dataset.color!;
-    preview.classList.add('on');
-  });
-  list.addEventListener('pointermove', (e) => { px(e.clientX + 200); py(e.clientY); });
-  list.addEventListener('pointerleave', () => preview.classList.remove('on'));
+/* ---------- Work explorer: filter, sort, view; Flip glides everything to its new place ---------- */
+const board = $('[data-board]');
+if (board) {
+  const cards = $$('.pj', board);
+  const bar = $('[data-bar]');
+  const countEl = $('[data-count]');
+  const catOrder = ['Mobile app', 'Website', 'Dashboard'];
+  let filter = 'All', sort = 'featured', view = 'mosaic';
+
+  const matches = (c: HTMLElement) => filter === 'All' || (filter === 'Case study' ? c.dataset.feat === '1' : c.dataset.cat === filter);
+  const sorters: Record<string, (a: HTMLElement, b: HTMLElement) => number> = {
+    featured: (a, b) => Number(b.dataset.feat) - Number(a.dataset.feat) || Number(a.dataset.i) - Number(b.dataset.i),
+    az: (a, b) => a.dataset.title!.localeCompare(b.dataset.title!),
+    type: (a, b) => catOrder.indexOf(a.dataset.cat!) - catOrder.indexOf(b.dataset.cat!) || Number(a.dataset.i) - Number(b.dataset.i),
+  };
+
+  // Masonry: 6px tracks, each card spans as many as its tile is tall
+  const layout = () => {
+    if (view !== 'mosaic') return cards.forEach((c) => c.style.removeProperty('--rows'));
+    cards.filter((c) => !c.hidden).forEach((c) => {
+      const h = c.firstElementChild!.getBoundingClientRect().height;
+      c.style.setProperty('--rows', String(Math.ceil((h + 34) / 6)));
+    });
+  };
+
+  const apply = () => {
+    cards.forEach((c) => (c.hidden = !matches(c)));
+    [...cards].sort(sorters[sort]).forEach((c) => board.appendChild(c));
+    board.dataset.view = view;
+    if (countEl) countEl.textContent = String(cards.filter((c) => !c.hidden).length);
+    layout();
+  };
+
+  const update = () => {
+    if (reduced) { apply(); return; }
+    const state = Flip.getState(cards);
+    apply();
+    Flip.from(state, {
+      duration: 0.85, ease: 'power3.inOut', stagger: 0.015, absolute: true, nested: true,
+      onEnter: (els) => gsap.fromTo(els, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.6, delay: 0.25 }),
+      onLeave: (els) => gsap.to(els, { opacity: 0, scale: 0.6, duration: 0.4 }),
+      onComplete: () => { layout(); ScrollTrigger.refresh(); },
+    });
+  };
+
+  const wire = (attr: string, set: (v: string) => void) => {
+    const btns = $$<HTMLButtonElement>(`[${attr}]`, bar!);
+    btns.forEach((b) => b.addEventListener('click', () => {
+      btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      set(b.getAttribute(attr)!);
+      update();
+    }));
+  };
+  wire('data-filter', (v) => (filter = v));
+  wire('data-sort', (v) => (sort = v));
+  wire('data-view-btn', (v) => (view = v));
+
+  // Re-measure on resize and once images/fonts settle
+  let rt = 0;
+  addEventListener('resize', () => { clearTimeout(rt); rt = window.setTimeout(layout, 120); });
+  document.fonts?.ready.then(layout);
+  apply(); // default sort (featured first) from the start
+
+  // Tilt: fine pointers, transform only
+  if (finePointer && !reduced) {
+    let raf = 0;
+    board.addEventListener('pointermove', (e) => {
+      const frame = (e.target as HTMLElement).closest<HTMLElement>('.frame');
+      if (!frame) return;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const r = frame.getBoundingClientRect();
+        frame.style.setProperty('--ry', `${(((e.clientX - r.left) / r.width - 0.5) * 6).toFixed(2)}deg`);
+        frame.style.setProperty('--rx', `${(-((e.clientY - r.top) / r.height - 0.5) * 6).toFixed(2)}deg`);
+      });
+    });
+    board.addEventListener('pointerout', (e) => {
+      const frame = (e.target as HTMLElement).closest<HTMLElement>('.frame');
+      frame?.style.removeProperty('--rx'); frame?.style.removeProperty('--ry');
+    });
+  }
+
+  // List view: a cover follows the cursor
+  const preview = $('.preview');
+  if (preview && finePointer) {
+    const pImg = $<HTMLImageElement>('img', preview)!;
+    const px = gsap.quickTo(preview, 'x', { duration: 0.45, ease: 'power3' });
+    const py = gsap.quickTo(preview, 'y', { duration: 0.45, ease: 'power3' });
+    board.addEventListener('pointerover', (e) => {
+      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-preview]');
+      if (!a || view !== 'list') return preview.classList.remove('on');
+      if (pImg.getAttribute('src') !== a.dataset.preview) pImg.src = a.dataset.preview!;
+      pImg.style.background = a.dataset.color!;
+      preview.classList.add('on');
+    });
+    board.addEventListener('pointermove', (e) => { px(e.clientX + 200); py(e.clientY); });
+    board.addEventListener('pointerleave', () => preview.classList.remove('on'));
+  }
 }
 
 /* ---------- Motion (skipped entirely under prefers-reduced-motion) ---------- */
@@ -160,25 +235,15 @@ if (!reduced) {
   const big = $('[data-bigmq]');
   if (big) loop(big, 1, 30);
 
-  const mm = gsap.matchMedia();
-
-  // 5 · Work: on wide screens the reel pins and scrolls sideways; covers parallax inside their frames
-  mm.add('(min-width: 900px)', () => {
-    root.classList.add('pinned');
-    const track = $('[data-track]')!;
-    const dist = () => track.scrollWidth - innerWidth;
-    const reel = gsap.to(track, {
-      x: () => -dist(), ease: 'none',
-      scrollTrigger: { trigger: '[data-reel]', start: 'top top+=64', end: () => '+=' + dist() * 0.6, pin: true, scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1 },
+  // 5 · Work: cards rise in as they enter the viewport, in waves
+  const boardCards = $$('.board .pj');
+  if (boardCards.length) {
+    gsap.set(boardCards, { opacity: 0, y: 70 });
+    ScrollTrigger.batch(boardCards, {
+      start: 'top 92%', once: true,
+      onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', stagger: 0.07, clearProps: 'opacity,transform' }),
     });
-    $$('.shot-img').forEach((img) =>
-      gsap.fromTo(img, { xPercent: -6 }, { xPercent: 6, ease: 'none', scrollTrigger: { trigger: img.closest('.shot'), containerAnimation: reel, start: 'left right', end: 'right left', scrub: true } }),
-    );
-    $$('.shot').forEach((shot, i) =>
-      gsap.from(shot, { y: i % 2 ? 120 : -120, rotate: i % 2 ? 3 : -3, opacity: 0.2, ease: 'none', scrollTrigger: { trigger: shot, containerAnimation: reel, start: 'left right', end: 'left 60%', scrub: true } }),
-    );
-    return () => root.classList.remove('pinned');
-  });
+  }
 
   // 6 · Case studies: same page-pile idea, full screen
   const panels = $$('.panel');

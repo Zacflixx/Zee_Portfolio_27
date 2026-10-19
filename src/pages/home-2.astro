@@ -46,7 +46,12 @@ const skillsA = ['Figma', 'User research', 'Wireframing', 'Prototyping', 'Design
 const skillsB = ['HTML/CSS', 'React', 'Angular', 'Vue', 'WordPress', 'Shopify', 'Web performance', 'Photoshop', 'Illustrator', 'English', 'Krio'];
 
 const studies = (await getCollection('case-studies')).sort((a, b) => a.data.order - b.data.order);
-const heights = ['tall', 'mid', 'short', 'mid', 'tall', 'short'];
+const cats = ['Mobile app', 'Website', 'Dashboard'];
+const filters = [
+  { key: 'All', label: 'All', n: projects.length },
+  ...cats.map((c) => ({ key: c, label: c, n: projects.filter((p) => p.category === c).length })),
+  { key: 'Case study', label: 'Case studies', n: projects.filter((p) => p.caseStudy).length },
+];
 ---
 <Base title="Isaac Conteh — Digital UX Lead · Homepage 2" design={2} noindex>
   <div class="x" id="x">
@@ -134,65 +139,66 @@ const heights = ['tall', 'mid', 'short', 'mid', 'tall', 'short'];
       </div>
     </section>
 
-    <!-- 5 · WORK: pinned horizontal reel -->
+    <!-- 5 · WORK: one explorer, every project visible, filter / sort / three views -->
     <section class="work" id="work" aria-labelledby="work-title">
-      <div class="reel" data-reel>
-        <div class="reel-track" data-track>
-          <header class="reel-head">
+      <div class="wrap">
+        <header class="w-head">
+          <div>
             <p class="label">Projects worked on</p>
             <h2 class="w-title" id="work-title">Work<sup>({projects.length})</sup></h2>
-            <p class="w-sub">Twenty projects across mobile apps, websites and dashboards. Keep scrolling: the reel moves sideways.</p>
-          </header>
+          </div>
+          <p class="w-sub">All of it, on one board. Filter by type, re-sort it, or change how it's laid out. Everything glides to its new place.</p>
+        </header>
+
+        <div class="bar" data-bar hidden>
+          <div class="grp" role="group" aria-label="Filter by type">
+            <span class="g-l">Show</span>
+            {filters.map((f, i) => <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-filter={f.key}>{f.label} <i>{f.n}</i></button>)}
+          </div>
+          <div class="grp" role="group" aria-label="Sort">
+            <span class="g-l">Sort</span>
+            <button type="button" aria-pressed="true" data-sort="featured">Featured first</button>
+            <button type="button" aria-pressed="false" data-sort="az">A–Z</button>
+            <button type="button" aria-pressed="false" data-sort="type">Type</button>
+          </div>
+          <div class="grp" role="group" aria-label="Layout">
+            <span class="g-l">View</span>
+            <button type="button" aria-pressed="true" data-view-btn="mosaic">Mosaic</button>
+            <button type="button" aria-pressed="false" data-view-btn="sheet">Sheet</button>
+            <button type="button" aria-pressed="false" data-view-btn="list">List</button>
+          </div>
+          <p class="count" aria-live="polite"><b data-count>{projects.length}</b> of {projects.length} shown</p>
+        </div>
+
+        <ul class="board" data-board data-view="mosaic">
           {projects.map((p, i) => (
-            <div class={`shot shot-${heights[i % heights.length]}`}>
+            <li class={`pj${p.caseStudy ? ' is-feat' : ''}`} data-cat={p.category} data-title={p.title} data-i={i} data-feat={p.caseStudy ? '1' : '0'} style={`--r:${(p.width / p.height).toFixed(4)}`}>
               <a
-                class="shot-link"
+                class="tile"
                 href={p.caseStudy ? `/work/${p.caseStudy}` : p.behanceUrl ?? BEHANCE_PROFILE}
+                data-preview={src(p.image, 720)}
+                data-color={p.dominantColor}
                 {...(p.caseStudy ? { 'data-cursor': 'Read' } : { 'data-open': String(i), 'data-cursor': 'View', target: '_blank', rel: 'noopener' })}
               >
-                <span class="shot-frame" style={`background:${p.dominantColor}; aspect-ratio:${p.width}/${p.height}`}>
-                  <img class="shot-img" src={src(p.image, 720)} srcset={srcset(p.image)} sizes="(min-width: 900px) 45vw, 80vw" width={p.width} height={p.height} alt={p.alt} loading="lazy" decoding="async" />
+                <span class="frame" style={`background:${p.dominantColor}`}>
+                  <img src={src(p.image, 720)} srcset={srcset(p.image)} sizes="(min-width: 900px) 28vw, (min-width: 560px) 45vw, 90vw" width={p.width} height={p.height} alt={p.alt} loading="lazy" decoding="async" />
+                  {p.caseStudy && <b class="badge">Case study</b>}
                 </span>
                 <span class="cap">
                   <span class="s-n">{String(i + 1).padStart(2, '0')}</span>
                   <span class="s-t">{p.title}</span>
-                  <span class="s-c">{p.category}{p.caseStudy && <b>Case study</b>}</span>
+                  <span class="s-c">{p.category}</span>
+                  <span class="s-d">{p.descriptor}</span>
                 </span>
-              </a>
-            </div>
-          ))}
-          <a class="reel-end" href={BEHANCE_PROFILE} target="_blank" rel="noopener" data-cursor="Behance">
-            <span class="label">More on Behance</span>
-            <span class="re-big">Explore all my work <span aria-hidden="true">↗</span></span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Index: the same twenty, as a scannable list with a cursor preview -->
-      <div class="index wrap" aria-labelledby="index-title">
-        <div class="ix-head">
-          <h3 id="index-title">Index</h3>
-          <div class="ix-filter" role="group" aria-label="Filter the index" data-ix-filter hidden>
-            {['All', 'Mobile app', 'Website', 'Dashboard'].map((c, i) => <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-cat={c}>{c}</button>)}
-          </div>
-        </div>
-        <ol class="ix-list">
-          {projects.map((p, i) => (
-            <li data-cat={p.category}>
-              <a
-                href={p.caseStudy ? `/work/${p.caseStudy}` : p.behanceUrl ?? BEHANCE_PROFILE}
-                data-preview={src(p.image, 720)}
-                data-color={p.dominantColor}
-                {...(p.caseStudy ? {} : { 'data-open': String(i), target: '_blank', rel: 'noopener' })}
-              >
-                <span class="ix-n">{String(i + 1).padStart(2, '0')}</span>
-                <span class="ix-t">{p.title}</span>
-                <span class="ix-d">{p.descriptor}</span>
-                <span class="ix-c">{p.caseStudy ? 'Case study' : p.category}</span>
               </a>
             </li>
           ))}
-        </ol>
+        </ul>
+
+        <a class="reel-end" href={BEHANCE_PROFILE} target="_blank" rel="noopener" data-cursor="Behance">
+          <span class="label">More on Behance</span>
+          <span class="re-big">Explore all my work <span aria-hidden="true">↗</span></span>
+        </a>
       </div>
       <div class="preview" aria-hidden="true"><img alt="" /></div>
     </section>
@@ -335,56 +341,80 @@ const heights = ['tall', 'mid', 'short', 'mid', 'tall', 'short'];
   .chip { font-family: var(--display); font-weight: 700; font-stretch: 80%; font-size: clamp(1.4rem, 3vw, 2.6rem); padding: 0.25em 0.8em; border-radius: 999px; background: var(--ink); color: var(--bg); white-space: nowrap; }
   .chip-o { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
 
-  /* ---------- 5 · Work reel (no-JS / mobile: native horizontal scroll-snap) ---------- */
-  .work { padding-top: clamp(64px, 8vw, 120px); }
-  .reel { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
-  .reel::-webkit-scrollbar { display: none; }
-  .reel-track { display: flex; align-items: center; gap: clamp(20px, 3vw, 56px); padding: 24px var(--gutter) 40px; width: max-content; min-height: 70svh; }
-  :global(.pinned) .reel { overflow: visible; }
-  :global(.pinned) .reel-track { height: calc(100svh - 64px); padding-block: 0; }
-  .reel-head { width: min(84vw, 520px); flex: none; display: grid; gap: 18px; scroll-snap-align: start; }
+  /* ---------- 5 · Work explorer ---------- */
+  .work { padding-block: clamp(64px, 8vw, 120px) clamp(48px, 6vw, 96px); }
+  .w-head { display: grid; gap: 20px; align-items: end; margin-bottom: 36px; }
+  @media (min-width: 900px) { .w-head { grid-template-columns: 1fr auto; } }
   .w-title { font-size: clamp(5rem, 16vw, 15rem); line-height: 0.8; font-stretch: 75%; }
   .w-title sup { font-size: 0.22em; vertical-align: top; margin-left: 0.1em; color: var(--accent); letter-spacing: 0; }
-  .w-sub { color: var(--muted); max-width: 32ch; }
-  .shot { margin: 0; flex: none; scroll-snap-align: center; }
-  .shot-tall { height: min(52svh, 480px); align-self: flex-start; margin-top: 6svh; }
-  .shot-mid { height: min(42svh, 400px); }
-  .shot-short { height: min(33svh, 310px); align-self: flex-end; margin-bottom: 8svh; }
-  @media (max-width: 899px) { .shot { height: auto !important; width: 80vw; align-self: center !important; margin: 0 !important; } }
-  .shot-link { display: grid; gap: 14px; height: 100%; grid-template-rows: 1fr auto; text-decoration: none; }
-  .shot-frame { display: block; height: 100%; max-width: 100%; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); transition: border-radius 0.4s; }
-  @media (max-width: 899px) { .shot-frame { height: auto; } }
-  .shot-img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); transition: transform 0.6s cubic-bezier(.2,.8,.2,1); }
-  .shot-link:hover .shot-img { transform: scale(1.16); }
-  .shot-link:hover .shot-frame { border-radius: 40px; }
-  .cap { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 0.95rem; }
-  .s-n { font-weight: 800; color: var(--accent); grid-row: span 2; font-family: var(--display); font-size: 1.6rem; line-height: 1; }
-  .s-t { font-weight: 700; }
-  .s-c { color: var(--muted); display: flex; gap: 8px; align-items: center; }
-  .s-c b { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; background: var(--accent); color: var(--accent-ink); padding: 0.15em 0.6em; border-radius: 999px; }
-  .reel-end { flex: none; width: min(80vw, 460px); aspect-ratio: 1; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-content: center; text-align: center; gap: 12px; padding: 40px; text-decoration: none; scroll-snap-align: center; transition: transform 0.4s; }
+  .w-sub { color: var(--muted); max-width: 36ch; }
+
+  .bar { position: sticky; top: 64px; z-index: 20; display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center; padding: 14px 0; margin-bottom: 28px; background: var(--bg); border-block: 1px solid var(--line); }
+  :global(.js) .bar { display: flex; }
+  .grp { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .g-l { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; color: var(--muted); margin-right: 4px; }
+  .bar button { font: inherit; font-weight: 600; font-size: 0.88rem; padding: 0.4em 0.95em; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; transition: background-color 0.2s, color 0.2s, border-color 0.2s; }
+  .bar button:hover { border-color: var(--ink); }
+  .bar button[aria-pressed='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .bar button i { font-style: normal; opacity: 0.6; margin-left: 0.25em; font-variant-numeric: tabular-nums; }
+  .count { margin-left: auto; color: var(--muted); font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+  .count b { color: var(--ink); }
+  @media (max-width: 899px) { .bar { position: static; } .count { margin-left: 0; width: 100%; } }
+
+  .board { --cols: 2; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 32px 18px; align-items: start; }
+  @media (min-width: 560px) { .board { --cols: 3; } }
+  @media (min-width: 900px) { .board { --cols: 4; gap: 0 22px; } }
+  .pj[hidden] { display: none; }
+  .pj.is-feat { grid-column: span 2; }
+  /* Masonry: JS measures each tile and sets --rows (6px tracks); without JS it is a plain top-aligned grid */
+  :global(.js) .board[data-view='mosaic'] { grid-auto-rows: 6px; row-gap: 0; }
+  :global(.js) .board[data-view='mosaic'] .pj { grid-row-end: span var(--rows, 50); }
+
+  .tile { display: grid; gap: 12px; text-decoration: none; align-content: start; }
+  .frame { position: relative; display: block; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 0.25s ease-out, border-radius 0.35s; }
+  .frame img { width: 100%; height: auto; transition: transform 0.6s cubic-bezier(.2,.8,.2,1); }
+  .tile:hover .frame img, .tile:focus-visible .frame img { transform: scale(1.05); }
+  .tile:hover .frame { border-radius: 26px; }
+  .badge { position: absolute; left: 10px; top: 10px; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; background: var(--accent); color: var(--accent-ink); padding: 0.25em 0.7em; border-radius: 999px; }
+  .cap { display: grid; grid-template-columns: auto 1fr; gap: 1px 10px; }
+  .s-n { grid-row: span 3; font-family: var(--display); font-weight: 800; color: var(--accent); font-size: 1.4rem; line-height: 1; }
+  .s-t { font-weight: 700; line-height: 1.2; }
+  .s-c { color: var(--muted); font-size: 0.85rem; }
+  .s-d { color: var(--muted); font-size: 0.85rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  /* Spotlight: hovering one card gently dims the rest */
+  @media (hover: hover) { .board:hover .pj { opacity: 0.55; transition: opacity 0.3s; } .board .pj:hover, .board .pj:focus-within { opacity: 1; } }
+
+  /* View: contact sheet. All twenty fit one screen, titles on hover */
+  .board[data-view='sheet'] { --cols: 3; gap: 12px; }
+  @media (min-width: 700px) { .board[data-view='sheet'] { --cols: 5; } }
+  .board[data-view='sheet'] .pj.is-feat { grid-column: span 1; }
+  :global(.js) .board[data-view='sheet'] { grid-auto-rows: auto; }
+  .board[data-view='sheet'] .frame { aspect-ratio: 4 / 3; border-radius: 8px; }
+  .board[data-view='sheet'] .frame img { height: 100%; object-fit: cover; }
+  .board[data-view='sheet'] .tile { gap: 6px; }
+  .board[data-view='sheet'] .cap { grid-template-columns: 1fr; }
+  .board[data-view='sheet'] .s-n, .board[data-view='sheet'] .s-c, .board[data-view='sheet'] .s-d { display: none; }
+  .board[data-view='sheet'] .s-t { font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* View: list. Thumbnails hidden; a cover follows the cursor instead */
+  .board[data-view='list'] { display: block; border-top: 1px solid var(--ink); }
+  .board[data-view='list'] .pj { border-bottom: 1px solid var(--line); }
+  .board[data-view='list'] .frame { display: none; }
+  .board[data-view='list'] .tile { display: block; padding: 16px 4px; transition: padding 0.3s, color 0.3s; }
+  .board[data-view='list'] .tile:hover { padding-inline: 20px 4px; color: var(--accent); }
+  .board[data-view='list'] .cap { grid-template-columns: 3ch minmax(0, 1.1fr) minmax(0, 1.4fr) 11ch; align-items: baseline; gap: 4px 20px; }
+  .board[data-view='list'] .s-n { grid-row: auto; font-size: 1rem; color: var(--muted); }
+  .board[data-view='list'] .s-t { font-family: var(--display); font-weight: 700; font-stretch: 80%; font-size: clamp(1.4rem, 2.6vw, 2.2rem); letter-spacing: -0.02em; line-height: 1; }
+  .board[data-view='list'] .s-c { order: 4; text-align: right; font-weight: 600; color: var(--ink); }
+  .board[data-view='list'] .s-d { -webkit-line-clamp: 1; }
+  @media (max-width: 899px) { .board[data-view='list'] .cap { grid-template-columns: 3ch 1fr auto; } .board[data-view='list'] .s-d { grid-column: 2 / -1; order: 5; } }
+  .board[data-view='list']:hover .pj { opacity: 1; }
+
+  .reel-end { margin: clamp(48px, 6vw, 80px) auto 0; width: min(80vw, 360px); aspect-ratio: 1; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-content: center; text-align: center; gap: 10px; padding: 36px; text-decoration: none; transition: transform 0.4s; }
   .reel-end .label { color: inherit; }
   .reel-end:hover { transform: rotate(-6deg) scale(1.03); }
-  .re-big { font-family: var(--display); font-weight: 800; font-stretch: 75%; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 0.95; letter-spacing: -0.03em; }
+  .re-big { font-family: var(--display); font-weight: 800; font-stretch: 75%; font-size: clamp(1.8rem, 3.4vw, 2.8rem); line-height: 0.95; letter-spacing: -0.03em; }
 
-  .index { padding-block: clamp(64px, 8vw, 120px) 40px; }
-  .ix-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 24px; }
-  .ix-head h3 { font-size: clamp(2.4rem, 6vw, 5rem); line-height: 0.9; font-stretch: 75%; }
-  :global(.js) .ix-filter { display: flex; }
-  .ix-filter { flex-wrap: wrap; gap: 6px; }
-  .ix-filter button { font: inherit; font-weight: 600; font-size: 0.9rem; padding: 0.45em 1em; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
-  .ix-filter button[aria-pressed='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-  .ix-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
-  .ix-list li[hidden] { display: none; }
-  .ix-list a { display: grid; grid-template-columns: 3ch 1fr auto; gap: 4px 20px; align-items: baseline; padding: 18px 4px; border-bottom: 1px solid var(--line); text-decoration: none; transition: padding 0.3s, color 0.3s; }
-  @media (min-width: 900px) { .ix-list a { grid-template-columns: 3ch minmax(0, 1.1fr) minmax(0, 1.4fr) 12ch; } }
-  .ix-n { color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 600; }
-  .ix-t { font-family: var(--display); font-weight: 700; font-stretch: 80%; font-size: clamp(1.4rem, 2.6vw, 2.2rem); line-height: 1; letter-spacing: -0.02em; }
-  .ix-d { color: var(--muted); grid-column: 2 / -1; }
-  @media (min-width: 900px) { .ix-d { grid-column: auto; } }
-  .ix-c { font-size: 0.85rem; font-weight: 600; text-align: right; grid-row: 1; grid-column: 3; }
-  @media (min-width: 900px) { .ix-c { grid-column: 4; } }
-  .ix-list a:hover, .ix-list a:focus-visible { padding-inline: 20px 4px; color: var(--accent); }
   .preview { position: fixed; left: 0; top: 0; width: 340px; pointer-events: none; z-index: 60; opacity: 0; transform: translate(-50%, -50%) scale(0.8); transition: opacity 0.25s, transform 0.25s; }
   .preview img { width: 100%; border-radius: 12px; box-shadow: var(--shadow); }
   .preview.on { opacity: 1; transform: translate(-50%, -50%) scale(1); }
@@ -443,6 +473,6 @@ const heights = ['tall', 'mid', 'short', 'mid', 'tall', 'short'];
 
   @media (prefers-reduced-motion: reduce) {
     .dot, .scroll i { animation: none; }
-    .shot-img, .p-art img, .card-art img { transition: none; transform: none; }
+    .frame img, .p-art img, .card-art img { transition: none; transform: none; }
   }
 </style>
