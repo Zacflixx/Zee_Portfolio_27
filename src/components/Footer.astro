@@ -1,0 +1,25 @@
+---
+import { site } from '../data/site';
+---
+<footer class="ftr">
+  <div class="wrap">
+    <div class="top">
+      <p class="big">Let’s make something people actually use.</p>
+      <ul>
+        <li><a href={`mailto:${site.email}`}>Email</a></li>
+        <li><a href={site.linkedin} rel="noopener" target="_blank">LinkedIn</a></li>
+        <li><a href={site.behance} rel="noopener" target="_blank">Behance</a></li>
+        <li><a href={site.medium} rel="noopener" target="_blank">Medium</a></li>
+      </ul>
+    </div>
+    <p class="small">© {new Date().getFullYear()} Isaac B. Conteh. Designed and hand-built by me.</p>
+  </div>
+</footer>
+<style>
+  .ftr { border-top: 1px solid var(--line); padding-block: 56px 40px; }
+  .top { display: flex; flex-wrap: wrap; gap: 24px 48px; justify-content: space-between; align-items: end; }
+  .big { font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.1; max-width: 18ch; }
+  ul { display: flex; gap: 24px; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; }
+  a { font-weight: 500; }
+  .small { margin-top: 48px; color: var(--muted); font-size: 0.9rem; }
+</style>

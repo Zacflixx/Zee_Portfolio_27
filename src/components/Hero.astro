@@ -1,0 +1,51 @@
+---
+import { byId } from '../data/projects';
+import { site } from '../data/site';
+import { srcset, src } from '../lib/cloudinary';
+
+// A loose fan of real covers. Top card is the LCP candidate on desktop.
+const fan = ['aereus-music', 'muglina-food-app', 'hr-dashboard', 'doha-transport', 'flixx-jobs'].map(byId);
+const rot = [-14, -7, 0, 7, 14];
+const dx = [-34, -17, 0, 17, 34];
+---
+<section class="hero wrap" aria-labelledby="hero-title">
+  <div class="copy">
+    <p class="eyebrow clock-line"><span class="dot" aria-hidden="true"></span><span><span data-clock>Doha, Qatar</span> — overlaps with European mornings</span></p>
+    <h1 id="hero-title">Isaac Conteh,<br /><em>Digital UX Lead.</em></h1>
+    <p class="lede">I design mobile-first products around what people actually do, not just what they say. Based in Doha, leading digital experience at Vodafone, and open to full-time remote and European roles.</p>
+    <div class="cta">
+      <a class="btn primary" href="#work">View work <span aria-hidden="true">↓</span></a>
+      <a class="btn" href={`mailto:${site.email}`}>Email me</a>
+      <button class="btn copy-email" type="button" data-copy={site.email} hidden>Copy email</button>
+    </div>
+  </div>
+  <div class="stack" aria-hidden="true">
+    {fan.map((p, i) => (
+      <img
+        class="fan"
+        src={src(p.image, 720)} srcset={srcset(p.image)} sizes="(min-width: 900px) 40vw, 80vw"
+        width={p.width} height={p.height} alt=""
+        loading={i === fan.length - 1 ? 'eager' : 'lazy'} fetchpriority={i === fan.length - 1 ? 'high' : 'auto'} decoding="async"
+        style={`--r:${rot[i]}deg; --x:${dx[i]}%; --z:${i}; background:${p.dominantColor}`}
+      />
+    ))}
+  </div>
+</section>
+<style>
+  .hero { display: grid; gap: 48px; padding-block: clamp(40px, 8vw, 96px) clamp(48px, 8vw, 96px); align-items: center; }
+  @media (min-width: 900px) { .hero { grid-template-columns: 1.15fr 1fr; } }
+  .clock-line { display: flex; align-items: baseline; gap: 10px; margin-bottom: 24px; text-transform: none; letter-spacing: 0.02em; font-size: 0.95rem; font-weight: 500; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #2f9e5b; flex: none; translate: 0 -1px; }
+  h1 { font-size: clamp(3rem, 9vw, 6.5rem); line-height: 0.98; }
+  h1 em { color: var(--accent); }
+  .lede { margin-top: 28px; max-width: 52ch; font-size: clamp(1.1rem, 2vw, 1.3rem); color: var(--muted); }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+  .js .copy-email { display: inline-flex; }
+
+  .stack { position: relative; aspect-ratio: 4 / 3.4; width: min(100%, 560px); margin-inline: auto; }
+  .fan { position: absolute; left: 50%; top: 50%; width: 62%; aspect-ratio: 4/3; object-fit: cover; border-radius: 14px; box-shadow: var(--shadow);
+    transform: translate(-50%, -50%) translateX(var(--x)) rotate(var(--r)); z-index: var(--z); transition: transform 0.5s cubic-bezier(.2,.8,.2,1); }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .stack:hover .fan { transform: translate(-50%, -50%) translateX(calc(var(--x) * 2.4)) rotate(calc(var(--r) * 1.4)); }
+  }
+</style>

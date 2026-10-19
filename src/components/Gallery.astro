@@ -1,0 +1,115 @@
+---
+import { projects, categories, BEHANCE_PROFILE } from '../data/projects';
+import { srcset, src, lightbox } from '../lib/cloudinary';
+
+// Row rhythm on a 12-column grid (each group sums to 12). Featured cards take the larger slots.
+const spans = [7, 5, 4, 4, 4, 5, 7, 3, 3, 3, 3, 6, 6, 4, 4, 4, 8, 4, 6, 6];
+const bigSlots = [0, 6, 12, 16];
+const feat = projects.filter((p) => p.featured);
+const rest = projects.filter((p) => !p.featured);
+const ordered = [];
+for (let i = 0, f = 0, r = 0; i < projects.length; i++) {
+  ordered.push(bigSlots.includes(i) && f < feat.length ? feat[f++] : rest[r++] ?? feat[f++]);
+}
+---
+<section class="section wrap" id="work" aria-labelledby="work-title">
+  <header class="head reveal">
+    <p class="eyebrow">Projects worked on</p>
+    <h2 class="h2" id="work-title">{projects.length} projects, one habit: start with the user.</h2>
+  </header>
+
+  <div class="chips" role="group" aria-label="Filter projects by category" data-filter hidden>
+    <button type="button" class="chip" aria-pressed="true" data-cat="all">All <span>{projects.length}</span></button>
+    {categories.map((c) => (
+      <button type="button" class="chip" aria-pressed="false" data-cat={c}>{c} <span>{projects.filter((p) => p.category === c).length}</span></button>
+    ))}
+  </div>
+
+  <ul class="grid" id="grid">
+    {ordered.map((p, i) => (
+      <li class="item reveal" data-cat={p.category} data-id={p.id} style={`--span:${spans[i]}`}>
+        <a
+          class="tile"
+          href={p.caseStudy ? `/work/${p.caseStudy}` : p.behanceUrl ?? BEHANCE_PROFILE}
+          {...(p.caseStudy ? {} : { 'data-open': p.id, target: '_blank', rel: 'noopener' })}
+          data-title={p.title} data-category={p.category}
+          data-full={lightbox(p.image)} data-alt={p.alt} data-behance={p.behanceUrl ?? BEHANCE_PROFILE}
+        >
+          <span class="frame" style={`background:${p.dominantColor}`}>
+            <img
+              src={src(p.image, 720)} srcset={srcset(p.image)}
+              sizes={`(min-width: 900px) ${Math.round((spans[i] / 12) * 100)}vw, (min-width: 560px) 50vw, 100vw`}
+              width={p.width} height={p.height} alt={p.alt}
+              loading="lazy" decoding="async"
+            />
+          </span>
+          <span class="cap">
+            <span class="name">{p.title}</span>
+            <span class="kind">{p.category}{p.caseStudy && <b class="badge">Case study</b>}</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <a class="behance reveal" href={BEHANCE_PROFILE} target="_blank" rel="noopener">
+    <span class="eyebrow">More on Behance</span>
+    <span class="big">Explore all my work on Behance <span aria-hidden="true">→</span></span>
+  </a>
+
+  <dialog class="lb" id="lightbox" aria-label="Project preview">
+    <form method="dialog"><button class="x" aria-label="Close preview">✕</button></form>
+    <div class="stage"><img id="lb-img" alt="" /></div>
+    <div class="bar">
+      <div><strong id="lb-title"></strong> <span id="lb-cat"></span></div>
+      <div class="acts">
+        <button type="button" id="lb-prev" aria-label="Previous project">←</button>
+        <a id="lb-link" class="btn" href={BEHANCE_PROFILE} target="_blank" rel="noopener">View on Behance ↗</a>
+        <button type="button" id="lb-next" aria-label="Next project">→</button>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<style>
+  .head { margin-bottom: 40px; display: grid; gap: 12px; max-width: 760px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+  .js .chips { display: flex; }
+  .chip { font: inherit; font-size: 0.93rem; font-weight: 500; padding: 0.5em 1em; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; transition: background-color 0.2s, color 0.2s; }
+  .chip span { color: var(--muted); margin-left: 0.3em; font-size: 0.85em; }
+  .chip:hover { border-color: var(--ink); }
+  .chip[aria-pressed='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .chip[aria-pressed='true'] span { color: inherit; opacity: 0.7; }
+
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 40px 24px; grid-template-columns: 1fr; align-items: start; grid-auto-flow: dense; }
+  @media (min-width: 560px) { .grid { grid-template-columns: repeat(2, 1fr); } .item { grid-column: span 1; } .item:nth-child(7n+1) { grid-column: span 2; } }
+  @media (min-width: 900px) { .grid { grid-template-columns: repeat(12, 1fr); gap: 56px 28px; } .item, .item:nth-child(7n+1) { grid-column: span var(--span); } }
+  .item[hidden] { display: none; }
+
+  .tile { display: grid; gap: 14px; text-decoration: none; }
+  .frame { display: block; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--s, 1)); transition: transform 0.25s ease-out; will-change: auto; }
+  .frame img { width: 100%; }
+  .tile:hover .frame, .tile:focus-visible .frame { --s: 1.012; }
+  .cap { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .name { font-weight: 600; }
+  .kind { color: var(--muted); font-size: 0.92rem; display: inline-flex; align-items: center; gap: 8px; }
+  .badge { font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; background: var(--accent); color: var(--accent-ink); padding: 0.2em 0.65em; border-radius: 999px; font-weight: 700; }
+
+  .behance { display: grid; gap: 12px; margin-top: 80px; padding: clamp(28px, 5vw, 56px); border: 1px solid var(--ink); border-radius: 20px; text-decoration: none; transition: background-color 0.25s, color 0.25s; }
+  .behance .big { font-family: var(--display); font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.05; }
+  .behance:hover { background: var(--ink); color: var(--bg); }
+  .behance:hover .eyebrow { color: inherit; opacity: 0.7; }
+
+  .lb { border: 0; padding: 0; background: var(--bg); color: var(--ink); width: min(96vw, 1200px); max-height: 94vh; border-radius: 18px; overflow: hidden; }
+  .lb::backdrop { background: rgb(10 10 9 / 0.78); }
+  .lb[open] { display: grid; grid-template-rows: 1fr auto; }
+  .stage { overflow: auto; display: grid; place-items: center; padding: 16px; max-height: calc(94vh - 90px); touch-action: pan-y; }
+  .stage img { max-height: calc(94vh - 130px); width: auto; border-radius: 10px; }
+  .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 20px; border-top: 1px solid var(--line); }
+  #lb-cat { color: var(--muted); margin-left: 8px; }
+  .acts { display: flex; gap: 8px; align-items: center; }
+  .acts button, .x { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 1.1rem; cursor: pointer; }
+  .acts button:hover, .x:hover { border-color: var(--ink); }
+  .x { position: absolute; top: 12px; right: 12px; z-index: 2; }
+  @media (prefers-reduced-motion: reduce) { .frame { transition: none; } }
+</style>

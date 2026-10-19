@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+<Base title="About — Isaac Conteh" description="Digital UX Lead in Doha. Four countries, four very different sets of users. Research and data-led, bilingual LTR/RTL, and I can build what I design.">
+  <article class="wrap about">
+    <p class="eyebrow">About</p>
+    <h1>Four countries, four very different sets of users.</h1>
+    <div class="body">
+      <p>I’m Isaac, a UX designer who started in Sierra Leone and has since worked in Malaysia, Saudi Arabia and now Qatar. Each move changed who I was designing for, and taught me to trust what people do over what they say.</p>
+      <p>Today I lead digital user experience at Vodafone in Doha, working with stakeholders and teams, not just screens. My MSc in data analytics means decisions are backed by behaviour, not opinion. At Tammwel I shipped a bilingual Arabic/English interface, so right-to-left is a habit, not an afterthought.</p>
+      <p>I also write frontend code, which makes handoff smoother. I built this site by hand.</p>
+      <p><mark class="add">[ADD a short, personal paragraph in your own words]</mark></p>
+      <p><a class="btn primary" href={site.cv}>Download CV (PDF)</a></p>
+      <p class="off">Off the clock: I play guitar, piano and drums and make music. <mark class="add">[ADD link to music]</mark></p>
+    </div>
+    <h2>Tools &amp; education</h2>
+    <ul class="cols">
+      <li><strong>Design</strong> Figma (main), Adobe XD, Sketch, Zeplin, Photoshop, Illustrator</li>
+      <li><strong>Methods</strong> User research, wireframing and prototyping, design thinking, analytics, web performance</li>
+      <li><strong>Frontend</strong> HTML/CSS, React, Angular, Vue, WordPress/Shopify</li>
+      <li><strong>Languages</strong> English, Krio</li>
+      <li><strong>Education</strong> MSc Data Analytics &amp; Project Management, Arden University (2023–25). BSc (Hons) Software Engineering with Multimedia, Limkokwing University, First Class (2019–21).</li>
+    </ul>
+  </article>
+</Base>
+<style>
+  .about { padding-block: 64px 96px; max-width: 800px; }
+  h1 { font-size: clamp(2.6rem, 7vw, 5rem); margin: 16px 0 40px; }
+  .body { display: grid; gap: 20px; font-size: 1.15rem; }
+  .off { color: var(--muted); }
+  h2 { font-size: 2rem; margin: 64px 0 16px; }
+  .cols { list-style: none; padding: 0; margin: 0; }
+  .cols li { padding-block: 16px; border-top: 1px solid var(--line); display: grid; gap: 4px; }
+  .cols strong { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+</style>

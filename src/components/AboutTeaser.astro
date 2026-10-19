@@ -1,0 +1,54 @@
+---
+const skills = [
+  { theme: 'Research & data', items: ['User research', 'Behavioural analytics', 'Design thinking', 'Stakeholder alignment'] },
+  { theme: 'Design', items: ['Figma (main)', 'Wireframing & prototyping', 'Mobile-first systems', 'Bilingual LTR/RTL interfaces'] },
+  { theme: 'Tools', items: ['Adobe XD', 'Sketch', 'Zeplin', 'Photoshop', 'Illustrator'] },
+  { theme: 'Build', items: ['HTML/CSS', 'React, Angular, Vue', 'WordPress / Shopify', 'Web performance'] },
+];
+const roles = [
+  { when: '2022 — now', what: 'Digital User Experience Lead', where: 'Vodafone, Doha' },
+  { when: '2021 — 2022', what: 'App UX Developer', where: 'Guaranty Trust Bank, Freetown' },
+  { when: '2021 — 2022', what: 'Frontend Developer & Designer', where: 'Tammwel Inc., Saudi Arabia' },
+  { when: '2021', what: 'WordPress Developer', where: 'CSI Properties, Kuala Lumpur' },
+];
+---
+<section class="section wrap about" aria-labelledby="about-title">
+  <div class="intro reveal">
+    <p class="eyebrow">About</p>
+    <h2 class="h2" id="about-title">Four countries, four very different sets of users.</h2>
+    <p>From Sierra Leone to Malaysia, Saudi Arabia and Qatar, I’ve designed for people with different habits, languages and connections. I read analytics alongside interviews, and I can build what I design.</p>
+    <p><a class="btn" href="/about">More about me <span aria-hidden="true">→</span></a></p>
+  </div>
+  <div class="cols">
+    <div class="skills reveal">
+      <h3>Skills</h3>
+      {skills.map((s) => (
+        <section>
+          <h4>{s.theme}</h4>
+          <ul>{s.items.map((i) => <li>{i}</li>)}</ul>
+        </section>
+      ))}
+    </div>
+    <ol class="time reveal" aria-label="Experience">
+      {roles.map((r) => (
+        <li><span class="when">{r.when}</span><span class="what">{r.what}</span><span class="where">{r.where}</span></li>
+      ))}
+    </ol>
+  </div>
+</section>
+<style>
+  .about { border-top: 1px solid var(--line); display: grid; gap: 56px; }
+  .intro { display: grid; gap: 20px; max-width: 60ch; }
+  .intro p { color: var(--muted); }
+  .cols { display: grid; gap: 56px; }
+  @media (min-width: 900px) { .cols { grid-template-columns: 1fr 1fr; gap: 80px; } }
+  h3 { font-size: 1.8rem; margin-bottom: 20px; }
+  h4 { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; font-weight: 600; }
+  .skills section { padding-block: 14px; border-top: 1px solid var(--line); }
+  .skills ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .time { list-style: none; padding: 0; margin: 0; align-self: start; }
+  .time li { display: grid; gap: 2px; padding-block: 18px; border-top: 1px solid var(--line); }
+  .when { font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .what { font-family: var(--display); font-size: 1.6rem; line-height: 1.1; }
+  .where { color: var(--muted); }
+</style>

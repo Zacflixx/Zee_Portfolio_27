@@ -1,0 +1,44 @@
+---
+import { featured } from '../data/projects';
+import { srcset, src } from '../lib/cloudinary';
+---
+<section class="section wrap" id="featured" aria-labelledby="featured-title">
+  <header class="head reveal">
+    <p class="eyebrow">Selected case studies</p>
+    <h2 class="h2" id="featured-title">How I think, step by step.</h2>
+  </header>
+  <ul class="list">
+    {featured.map((p, i) => (
+      <li class="reveal">
+        <a class="card" href={`/work/${p.caseStudy}`}>
+          <img
+            src={src(p.image, 960)} srcset={srcset(p.image)} sizes="(min-width: 900px) 33vw, 100vw"
+            width={p.width} height={p.height} alt={p.alt}
+            loading="lazy" decoding="async" style={`background:${p.dominantColor}`}
+          />
+          <span class="meta">
+            <span class="num">0{i + 1}</span>
+            <span class="t">{p.title}</span>
+            <span class="o"><mark class="add">[ADD one-line outcome]</mark></span>
+            <span class="go" aria-hidden="true">Read case study →</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+<style>
+  .head { margin-bottom: 48px; display: grid; gap: 12px; }
+  .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px; }
+  @media (min-width: 900px) { .list { grid-template-columns: repeat(3, 1fr); } }
+  .card { display: grid; gap: 20px; text-decoration: none; }
+  img { width: 100%; border-radius: 14px; box-shadow: var(--shadow); transition: transform 0.35s cubic-bezier(.2,.8,.2,1); }
+  .card:hover img { transform: translateY(-4px); }
+  .meta { display: grid; gap: 4px; }
+  .num { font-size: 0.8rem; letter-spacing: 0.12em; color: var(--muted); font-weight: 600; }
+  .t { font-family: var(--display); font-size: clamp(1.8rem, 3vw, 2.3rem); line-height: 1.05; }
+  .o { color: var(--muted); }
+  .go { margin-top: 6px; font-weight: 600; color: var(--accent); }
+  .card:hover .go { text-decoration: underline; text-underline-offset: 0.3em; }
+  @media (prefers-reduced-motion: reduce) { img { transition: none; } .card:hover img { transform: none; } }
+</style>

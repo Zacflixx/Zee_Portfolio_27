@@ -1,0 +1,19 @@
+---
+import { site } from '../data/site';
+---
+<section class="section wrap cta reveal" aria-labelledby="cta-title">
+  <p class="eyebrow">Contact</p>
+  <h2 class="h2" id="cta-title">Hiring a UX lead? Let’s talk.</h2>
+  <p>Open to full-time remote roles and relocation to Europe.</p>
+  <div class="row">
+    <a class="btn primary" href={`mailto:${site.email}`}>{site.email}</a>
+    <button class="btn copy-email" type="button" data-copy={site.email} hidden>Copy email</button>
+    <a class="btn" href={site.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+</section>
+<style>
+  .cta { border-top: 1px solid var(--line); display: grid; gap: 18px; justify-items: start; }
+  .cta p:not(.eyebrow) { color: var(--muted); font-size: 1.15rem; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+  .js .copy-email { display: inline-flex; }
+</style>

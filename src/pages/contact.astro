@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+<Base title="Contact — Isaac Conteh" description="Email, LinkedIn and Behance. Open to full-time remote and European roles.">
+  <section class="wrap c">
+    <p class="eyebrow">Contact</p>
+    <h1>Let’s talk.</h1>
+    <p class="lede">Open to full-time remote roles and relocation to Europe. Email is the fastest way to reach me.</p>
+    <div class="row">
+      <a class="btn primary" href={`mailto:${site.email}`}>{site.email}</a>
+      <button class="btn copy-email" type="button" data-copy={site.email} hidden>Copy email</button>
+    </div>
+    <ul class="links">
+      <li><a href={site.linkedin} target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a></li>
+      <li><a href={site.behance} target="_blank" rel="noopener">Behance <span aria-hidden="true">↗</span></a></li>
+      <li><a href={site.medium} target="_blank" rel="noopener">Medium <span aria-hidden="true">↗</span></a></li>
+    </ul>
+    <p class="clock"><span data-clock>Doha, Qatar</span> — overlaps with European mornings</p>
+  </section>
+</Base>
+<style>
+  .c { padding-block: 64px 120px; display: grid; gap: 20px; justify-items: start; }
+  h1 { font-size: clamp(3rem, 9vw, 6rem); }
+  .lede { font-size: 1.2rem; color: var(--muted); max-width: 48ch; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .js .copy-email { display: inline-flex; }
+  .links { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 4px; font-family: var(--display); font-size: 2rem; }
+  .links a { text-decoration: none; }
+  .links a:hover { color: var(--accent); }
+  .clock { color: var(--muted); }
+</style>
