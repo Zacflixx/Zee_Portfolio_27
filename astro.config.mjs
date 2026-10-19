@@ -4,6 +4,6 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: process.env.URL || 'https://isaac-conteh.netlify.app',
   trailingSlash: 'never',
-  build: { format: 'file' },
+  build: { format: 'file', inlineStylesheets: 'always' },
   compressHTML: true,
 });

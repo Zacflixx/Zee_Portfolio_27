@@ -23,7 +23,7 @@ const dx = [-34, -17, 0, 17, 34];
     {fan.map((p, i) => (
       <img
         class="fan"
-        src={src(p.image, 720)} srcset={srcset(p.image)} sizes="(min-width: 900px) 40vw, 80vw"
+        src={src(p.image, 720)} srcset={srcset(p.image)} sizes="(min-width: 900px) 350px, 50vw"
         width={p.width} height={p.height} alt=""
         loading={i === fan.length - 1 ? 'eager' : 'lazy'} fetchpriority={i === fan.length - 1 ? 'high' : 'auto'} decoding="async"
         style={`--r:${rot[i]}deg; --x:${dx[i]}%; --z:${i}; background:${p.dominantColor}`}

@@ -105,6 +105,7 @@ if (grid) {
     img.alt = a.dataset.alt!;
     $('#lb-title')!.textContent = a.dataset.title!;
     $('#lb-cat')!.textContent = a.dataset.category!;
+    $('#lb-desc')!.textContent = a.dataset.descriptor!;
     ($('#lb-link') as HTMLAnchorElement).href = a.dataset.behance!;
   };
   const step = (d: number) => {

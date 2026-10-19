@@ -1,1 +1,102 @@
-{}
+{
+  "jannah-interior": {
+    "width": 2003,
+    "height": 1166,
+    "dominantColor": "#e8e8d8"
+  },
+  "muglina-food-app": {
+    "width": 1370,
+    "height": 912,
+    "dominantColor": "#f8f8f8"
+  },
+  "al-rayyan-clinic": {
+    "width": 2049,
+    "height": 1459,
+    "dominantColor": "#f8f8f8"
+  },
+  "zacoustics": {
+    "width": 2048,
+    "height": 1192,
+    "dominantColor": "#080808"
+  },
+  "corporate-fitness": {
+    "width": 2037,
+    "height": 1354,
+    "dominantColor": "#080808"
+  },
+  "coleen-plant": {
+    "width": 2038,
+    "height": 1358,
+    "dominantColor": "#f8f8f8"
+  },
+  "aereus-music": {
+    "width": 1019,
+    "height": 679,
+    "dominantColor": "#080808"
+  },
+  "zaco-360": {
+    "width": 1600,
+    "height": 960,
+    "dominantColor": "#382818"
+  },
+  "doha-transport": {
+    "width": 1326,
+    "height": 844,
+    "dominantColor": "#e8f8f8"
+  },
+  "leone-museum": {
+    "width": 1262,
+    "height": 788,
+    "dominantColor": "#f8e8e8"
+  },
+  "tahel-coo": {
+    "width": 2056,
+    "height": 1313,
+    "dominantColor": "#e8e8e8"
+  },
+  "dee-properties": {
+    "width": 1200,
+    "height": 800,
+    "dominantColor": "#f8e8e8"
+  },
+  "telecom-app": {
+    "width": 808,
+    "height": 632,
+    "dominantColor": "#e8e8e8"
+  },
+  "ai-robocare": {
+    "width": 808,
+    "height": 632,
+    "dominantColor": "#c8c8b8"
+  },
+  "shaos-kitchen": {
+    "width": 808,
+    "height": 632,
+    "dominantColor": "#c8c8c8"
+  },
+  "flixx-jobs": {
+    "width": 808,
+    "height": 632,
+    "dominantColor": "#f8f8f8"
+  },
+  "sierra-sell": {
+    "width": 808,
+    "height": 632,
+    "dominantColor": "#f8f8f8"
+  },
+  "hr-dashboard": {
+    "width": 808,
+    "height": 632,
+    "dominantColor": "#f8f8f8"
+  },
+  "whf-music": {
+    "width": 808,
+    "height": 632,
+    "dominantColor": "#c8c8c8"
+  },
+  "wapishi-online": {
+    "width": 808,
+    "height": 632,
+    "dominantColor": "#f8f8f8"
+  }
+}

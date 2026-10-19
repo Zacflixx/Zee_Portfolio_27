@@ -32,7 +32,7 @@ for (let i = 0, f = 0, r = 0; i < projects.length; i++) {
           class="tile"
           href={p.caseStudy ? `/work/${p.caseStudy}` : p.behanceUrl ?? BEHANCE_PROFILE}
           {...(p.caseStudy ? {} : { 'data-open': p.id, target: '_blank', rel: 'noopener' })}
-          data-title={p.title} data-category={p.category}
+          data-title={p.title} data-category={p.category} data-descriptor={p.descriptor}
           data-full={lightbox(p.image)} data-alt={p.alt} data-behance={p.behanceUrl ?? BEHANCE_PROFILE}
         >
           <span class="frame" style={`background:${p.dominantColor}`}>
@@ -61,7 +61,7 @@ for (let i = 0, f = 0, r = 0; i < projects.length; i++) {
     <form method="dialog"><button class="x" aria-label="Close preview">✕</button></form>
     <div class="stage"><img id="lb-img" alt="" /></div>
     <div class="bar">
-      <div><strong id="lb-title"></strong> <span id="lb-cat"></span></div>
+      <div><strong id="lb-title"></strong> <span id="lb-cat"></span><p id="lb-desc"></p></div>
       <div class="acts">
         <button type="button" id="lb-prev" aria-label="Previous project">←</button>
         <a id="lb-link" class="btn" href={BEHANCE_PROFILE} target="_blank" rel="noopener">View on Behance ↗</a>
@@ -107,6 +107,7 @@ for (let i = 0, f = 0, r = 0; i < projects.length; i++) {
   .stage img { max-height: calc(94vh - 130px); width: auto; border-radius: 10px; }
   .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 20px; border-top: 1px solid var(--line); }
   #lb-cat { color: var(--muted); margin-left: 8px; }
+  #lb-desc { color: var(--muted); font-size: 0.93rem; }
   .acts { display: flex; gap: 8px; align-items: center; }
   .acts button, .x { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 1.1rem; cursor: pointer; }
   .acts button:hover, .x:hover { border-color: var(--ink); }
