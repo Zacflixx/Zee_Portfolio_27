@@ -9,7 +9,8 @@ import { ogImage } from '../lib/cloudinary';
 
 interface Props { title?: string; description?: string; image?: string; }
 const { title = site.title, description = site.description, image = ogImage(byId('flixx-jobs').image) } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+// build.format is 'file', so pathnames can end in .html; canonical URLs should not
+const canonical = new URL(Astro.url.pathname.replace(/(^|\/)index\.html$/, '$1').replace(/\.html$/, ''), Astro.site).href;
 const person = {
   '@context': 'https://schema.org',
   '@type': 'Person',
