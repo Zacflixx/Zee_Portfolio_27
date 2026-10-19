@@ -41,7 +41,7 @@ const overview: [string, string][] = [['Role', d.role], ['Timeline', d.timeline]
   </article>
   {import.meta.env.DEV && (
     <script is:inline>{`
-      // Dev only: highlight [ADD …] markers that come from Markdown
+      // Dev only: highlight placeholder markers that come from Markdown
       var w = document.createTreeWalker(document.querySelector('.prose'), NodeFilter.SHOW_TEXT), n, list = [];
       while ((n = w.nextNode())) if (/\\[(ADD|CONFIRM)[^\\]]*\\]/.test(n.nodeValue)) list.push(n);
       list.forEach(function (t) {
