@@ -31,7 +31,7 @@ const manifesto =
 const strengths = [
   { n: '01', t: 'Leads UX at a major telco', b: 'Digital User Experience Lead at Vodafone in Doha since 2022. End-to-end journeys across digital channels, shaped with stakeholders and teams, not just screens.', kind: 'ink', img: byId('telecom-app') },
   { n: '02', t: 'Research, then data', b: 'An MSc in Data Analytics & Project Management. I read analytics alongside interviews, so decisions rest on behaviour, not opinion.', kind: 'accent', img: byId('tahel-coo') },
-  { n: '03', t: 'Bilingual by default', b: 'At Tammwel I shipped a bilingual Arabic/English website, customer dashboard and mobile app. Right-to-left is a habit, not an afterthought.', kind: 'surface', rtl: true },
+  { n: '03', t: 'Designed end to end', b: 'From research and wireframes to prototypes and polished, mobile-first interfaces. Figma is my main tool, alongside Adobe XD, Sketch, Zeplin, Photoshop and Illustrator. Arabic and English, left-to-right and right-to-left.', kind: 'surface', flow: true },
   { n: '04', t: 'I can build it', b: 'BSc (Hons) Software Engineering with Multimedia, First Class. HTML/CSS, React, Angular and Vue, so handoff is a conversation, not a throw over the wall.', kind: 'code' },
 ];
 
@@ -73,69 +73,8 @@ const filters = [
         <div class="hero-foot">
           <p class="role"><strong>Digital UX Lead</strong> at Vodafone, Doha. Mobile-first products designed around what people actually do.</p>
           <p class="avail">Open to full-time roles: remote, or relocating to Europe.</p>
-          <a class="scroll" href="#manifesto" data-cursor="Scroll"><span>Scroll</span><i aria-hidden="true"></i></a>
+          <a class="scroll" href="#work" data-cursor="Scroll"><span>Scroll</span><i aria-hidden="true"></i></a>
         </div>
-      </div>
-    </section>
-
-    <!-- 2 · ABOUT: scroll-revealed manifesto -->
-    <section class="manifesto" id="manifesto" aria-label="About me">
-      <div class="m-in">
-        <p class="label">About</p>
-        <p class="m-text" set:html={words(manifesto, ['actually', 'do,', 'behaviour'])} />
-      </div>
-    </section>
-
-    <!-- 3 · ABOUT: four strengths, piled as stacking cards -->
-    <section class="pile" aria-label="What I bring">
-      {strengths.map((s, i) => (
-        <article class={`card card-${s.kind}`} style={`--i:${i}`}>
-          <div class="card-in">
-            <div class="card-copy">
-              <span class="card-n">{s.n} / 04</span>
-              <h2 class="card-t">{s.t}</h2>
-              <p class="card-b">{s.b}</p>
-            </div>
-            <div class="card-art" aria-hidden="true">
-              {s.img && <img src={src(s.img.image, 720)} srcset={srcset(s.img.image)} sizes="(min-width: 900px) 40vw, 90vw" width={s.img.width} height={s.img.height} alt="" loading="lazy" decoding="async" />}
-              {s.rtl && (
-                <div class="rtl">
-                  <span class="ltr-w">English →</span>
-                  <span class="rtl-w" lang="ar" dir="rtl">← العربية</span>
-                </div>
-              )}
-              {s.kind === 'code' && (
-                <pre class="code"><code><span class="tk">&lt;button</span> <span class="at">class</span>=<span class="st">"cta"</span><span class="tk">&gt;</span>{'\n'}  Designed and built{'\n'}<span class="tk">&lt;/button&gt;</span>{'\n\n'}<span class="at">.cta</span> {'{'}{'\n'}  <span class="at">min-height</span>: 44px;{'\n'}  <span class="at">padding-inline</span>: 1.3em;{'\n'}{'}'}</code></pre>
-              )}
-            </div>
-          </div>
-        </article>
-      ))}
-    </section>
-
-    <!-- 4 · ABOUT: the route, four countries -->
-    <section class="route" aria-labelledby="route-title">
-      <div class="wrap">
-        <p class="label">Where I've worked</p>
-        <h2 class="r-title" id="route-title">Four countries, four very different sets of users.</h2>
-        <div class="r-track">
-          <div class="r-line" aria-hidden="true"><i></i></div>
-          <ol class="r-stops">
-            {route.map((r) => (
-              <li class="stop">
-                <span class="pin" aria-hidden="true"></span>
-                <span class="place">{r.place}</span>
-                <span class="what">{r.what}</span>
-                <span class="where">{r.where}</span>
-                <span class="when">{r.when}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
-      <div class="marquee" aria-label="Skills and tools">
-        <div class="mq-row" data-dir="1"><div class="mq-in">{[...skillsA, ...skillsA].map((s, i) => <span class="chip" aria-hidden={i >= skillsA.length ? 'true' : undefined}>{s}</span>)}</div></div>
-        <div class="mq-row" data-dir="-1"><div class="mq-in">{[...skillsB, ...skillsB].map((s, i) => <span class="chip chip-o" aria-hidden={i >= skillsB.length ? 'true' : undefined}>{s}</span>)}</div></div>
       </div>
     </section>
 
@@ -201,6 +140,67 @@ const filters = [
         </a>
       </div>
       <div class="preview" aria-hidden="true"><img alt="" /></div>
+    </section>
+
+    <!-- 2 · ABOUT: scroll-revealed manifesto -->
+    <section class="manifesto" id="manifesto" aria-label="About me">
+      <div class="m-in">
+        <p class="label">About</p>
+        <p class="m-text" set:html={words(manifesto, ['actually', 'do,', 'behaviour'])} />
+      </div>
+    </section>
+
+    <!-- 3 · ABOUT: four strengths, piled as stacking cards -->
+    <section class="pile" aria-label="What I bring">
+      {strengths.map((s, i) => (
+        <article class={`card card-${s.kind}`} style={`--i:${i}`}>
+          <div class="card-in">
+            <div class="card-copy">
+              <span class="card-n">{s.n} / 04</span>
+              <h2 class="card-t">{s.t}</h2>
+              <p class="card-b">{s.b}</p>
+            </div>
+            <div class="card-art" aria-hidden="true">
+              {s.img && <img src={src(s.img.image, 720)} srcset={srcset(s.img.image)} sizes="(min-width: 900px) 40vw, 90vw" width={s.img.width} height={s.img.height} alt="" loading="lazy" decoding="async" />}
+              {s.flow && (
+                <ol class="flow">
+                  {['Research', 'Wireframes', 'Prototype', 'Pixels'].map((w, i) => <li style={`--k:${i}`}><span>{w}</span><i aria-hidden="true">→</i></li>)}
+                  <li class="tools"><span class="tl">Figma</span><span class="tl">Adobe XD</span><span class="tl">Sketch</span><span class="tl">Zeplin</span></li>
+                </ol>
+              )}
+              {s.kind === 'code' && (
+                <pre class="code"><code><span class="tk">&lt;button</span> <span class="at">class</span>=<span class="st">"cta"</span><span class="tk">&gt;</span>{'\n'}  Designed and built{'\n'}<span class="tk">&lt;/button&gt;</span>{'\n\n'}<span class="at">.cta</span> {'{'}{'\n'}  <span class="at">min-height</span>: 44px;{'\n'}  <span class="at">padding-inline</span>: 1.3em;{'\n'}{'}'}</code></pre>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <!-- 4 · ABOUT: the route, four countries -->
+    <section class="route" aria-labelledby="route-title">
+      <div class="wrap">
+        <p class="label">Where I've worked</p>
+        <h2 class="r-title" id="route-title">Four countries, four very different sets of users.</h2>
+        <div class="r-track">
+          <div class="r-line" aria-hidden="true"><i></i></div>
+          <ol class="r-stops">
+            {route.map((r) => (
+              <li class="stop">
+                <span class="pin" aria-hidden="true"></span>
+                <span class="place">{r.place}</span>
+                <span class="what">{r.what}</span>
+                <span class="where">{r.where}</span>
+                <span class="when">{r.when}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+      <div class="marquee" aria-label="Skills and tools">
+        <div class="mq-row" data-dir="1"><div class="mq-in">{[...skillsA, ...skillsA].map((s, i) => <span class="chip" aria-hidden={i >= skillsA.length ? 'true' : undefined}>{s}</span>)}</div></div>
+        <div class="mq-row" data-dir="-1"><div class="mq-in">{[...skillsB, ...skillsB].map((s, i) => <span class="chip chip-o" aria-hidden={i >= skillsB.length ? 'true' : undefined}>{s}</span>)}</div></div>
+      </div>
     </section>
 
     <!-- 6 · CASE STUDIES: full-screen page pile -->
@@ -319,8 +319,12 @@ const filters = [
   .card-t { font-size: clamp(2.6rem, 7vw, 6.5rem); line-height: 0.9; }
   .card-b { font-size: clamp(1.05rem, 1.5vw, 1.3rem); max-width: 40ch; opacity: 0.9; }
   .card-art img { width: 100%; border-radius: 16px; transform: rotate(-2deg); box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.6); }
-  .rtl { display: grid; gap: 12px; font-family: var(--display); font-weight: 800; font-stretch: 75%; font-size: clamp(3rem, 8vw, 7.5rem); line-height: 0.95; }
-  .rtl-w { font-family: 'Noto Kufi Arabic', 'Geeza Pro', 'Segoe UI', Tahoma, sans-serif; color: var(--accent); text-align: right; font-weight: 700; }
+  .flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .flow li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); padding-block: 6px; font-family: var(--display); font-weight: 800; font-stretch: 75%; font-size: clamp(2.4rem, 6.4vw, 5.6rem); line-height: 1; letter-spacing: -0.03em; }
+  .flow li:nth-child(even) span { color: var(--accent); }
+  .flow i { font-style: normal; color: var(--muted); font-size: 0.6em; }
+  .flow .tools { border-bottom: 0; justify-content: flex-start; flex-wrap: wrap; gap: 8px; padding-top: 18px; font: 600 0.95rem/1 var(--text); letter-spacing: 0; }
+  .flow .tl { border: 1px solid var(--ink); border-radius: 999px; padding: 0.5em 1em; color: var(--ink) !important; }
   .code { margin: 0; font: 500 clamp(0.95rem, 1.6vw, 1.35rem)/1.6 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; background: rgb(255 255 255 / 0.05); padding: 28px; border-radius: 16px; border: 1px solid rgb(255 255 255 / 0.1); overflow: auto; }
   .tk { color: #8c9bff; } .at { color: #7ee2b8; } .st { color: #ffc27a; }
 

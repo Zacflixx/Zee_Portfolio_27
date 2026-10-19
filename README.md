@@ -61,7 +61,7 @@ Targets: 95+ in all four categories on mobile, JS under 30 KB gzipped, INP under
 
 - Code: `src/pages/home-2.astro` (markup + styles), `src/scripts/home2.ts` (motion), `src/styles/design2.css` (tokens + font).
 - Libraries, only on this page: [GSAP](https://gsap.com) + ScrollTrigger (pinning, scrubbed scroll animation, Flip layout transitions) and [Lenis](https://lenis.darkroom.engineering) (smooth scroll). About 51 KB gzipped together; Homepage 1 still ships ~2.4 KB.
-- Sections: kinetic name over parallax covers → scroll-revealed manifesto → stacking "page-pile" strength cards → four-country route + velocity marquee of skills → project explorer (all 20 on one board, filter / sort / Mosaic · Sheet · List views, GSAP Flip glides cards to their new places) → full-screen case-study pile → scroll-speed marquee and magnetic email.
+- Sections: kinetic name over parallax covers → project explorer (all 20 on one board, filter / sort / Mosaic · Sheet · List views, GSAP Flip glides cards to their new places) → scroll-revealed manifesto → stacking "page-pile" strength cards → four-country route + velocity marquee of skills → full-screen case-study pile → scroll-speed marquee and magnetic email.
 - With `prefers-reduced-motion` or without JS, everything is static and readable and the explorer is a plain grid.
 - To make it the main homepage: swap the contents of `src/pages/index.astro` and `src/pages/home-2.astro` (and drop `noindex`).
 

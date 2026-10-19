@@ -288,6 +288,7 @@ if (!reduced) {
   }
 
   // Fonts and lazy images change layout; re-measure once everything has settled
+  ScrollTrigger.sort();
   document.fonts?.ready.then(() => ScrollTrigger.refresh());
   addEventListener('load', () => ScrollTrigger.refresh());
 }
