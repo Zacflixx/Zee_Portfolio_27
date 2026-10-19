@@ -61,8 +61,8 @@
   },
   "telecom-app": {
     "width": 808,
-    "height": 632,
-    "dominantColor": "#e8e8e8"
+    "height": 566,
+    "dominantColor": "#d8d8d8"
   },
   "ai-robocare": {
     "width": 808,
@@ -76,12 +76,12 @@
   },
   "flixx-jobs": {
     "width": 808,
-    "height": 632,
+    "height": 565,
     "dominantColor": "#f8f8f8"
   },
   "sierra-sell": {
     "width": 808,
-    "height": 632,
+    "height": 561,
     "dominantColor": "#f8f8f8"
   },
   "hr-dashboard": {

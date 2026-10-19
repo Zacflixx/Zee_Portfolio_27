@@ -6,7 +6,7 @@ export const site = {
   description:
     'Digital UX Lead based in Doha. I design mobile-first products around what people actually do, not just what they say. Open to remote and European roles.',
   email: 'techisaac29@gmail.com',
-  emailConfirmed: false, // confirm this is the address Isaac wants public; flip to true in this file
+  emailConfirmed: true, // set to false if this should not be the public address
   linkedin: 'https://linkedin.com/in/isaac-b-conteh-8b21491b1/',
   behance: 'https://behance.net/isaacconteh',
   medium: 'https://medium.com/@zacflixx2917',

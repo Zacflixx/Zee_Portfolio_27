@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import { projects } from '../data/projects';
+import { site } from '../data/site';
+
+const studies = await getCollection('case-studies');
+const entries = [
+  { label: 'Home', group: 'Pages', href: '/' },
+  { label: 'About', group: 'Pages', href: '/about' },
+  { label: 'Contact', group: 'Pages', href: '/contact' },
+  ...studies.map((s) => ({ label: `${s.data.title} (case study)`, group: 'Case studies', href: `/work/${s.id}` })),
+  ...projects.map((p) => ({ label: p.title, group: 'Projects', href: `/#p-${p.id}` })),
+  { label: 'Behance', group: 'Elsewhere', href: site.behance },
+  { label: 'LinkedIn', group: 'Elsewhere', href: site.linkedin },
+  { label: 'Copy email address', group: 'Elsewhere', href: '#copy' },
+];
+---
+<dialog id="qj" aria-label="Quick jump" hidden>
+  <input id="qj-input" type="text" placeholder="Jump to a project, page or link…" autocomplete="off" aria-label="Search" role="combobox" aria-expanded="true" aria-controls="qj-list" />
+  <ul id="qj-list" role="listbox">
+    {entries.map((e) => <li role="option" data-href={e.href} data-email={e.href === '#copy' ? site.email : undefined} data-q={`${e.label} ${e.group}`.toLowerCase()}><span>{e.label}</span><small>{e.group}</small></li>)}
+  </ul>
+</dialog>
+<style>
+  dialog { border: 1px solid var(--line); border-radius: 16px; padding: 0; width: min(92vw, 560px); background: var(--surface); color: var(--ink); margin-top: 12vh; box-shadow: var(--shadow); overflow: hidden; }
+  dialog:not([open]) { display: none; }
+  dialog::backdrop { background: rgb(10 10 9 / 0.5); }
+  input { width: 100%; font: inherit; font-size: 1.05rem; padding: 18px 20px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: inherit; }
+  input:focus-visible { outline: none; }
+  ul { list-style: none; margin: 0; padding: 6px; max-height: 50vh; overflow: auto; }
+  li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-radius: 10px; cursor: pointer; }
+  li[hidden] { display: none; }
+  li[aria-selected='true'] { background: var(--ink); color: var(--bg); }
+  small { color: var(--muted); }
+  li[aria-selected='true'] small { color: inherit; opacity: 0.7; }
+</style>

@@ -107,6 +107,9 @@ if (grid) {
     $('#lb-cat')!.textContent = a.dataset.category!;
     $('#lb-desc')!.textContent = a.dataset.descriptor!;
     ($('#lb-link') as HTMLAnchorElement).href = a.dataset.behance!;
+    const live = $<HTMLAnchorElement>('#lb-live')!;
+    live.hidden = !a.dataset.live;
+    if (a.dataset.live) live.href = a.dataset.live;
   };
   const step = (d: number) => {
     const list = opener();
@@ -181,3 +184,44 @@ $$('[data-compare]').forEach((fig, n) => {
   fig.append(range, labels);
   if (fig.dataset.caption) { const c = document.createElement('figcaption'); c.textContent = fig.dataset.caption; fig.append(c); }
 });
+
+/* Quick jump: Ctrl/Cmd+K. Pages, case studies, projects and links in one filterable list. */
+const qj = $<HTMLDialogElement>('#qj');
+if (qj && typeof qj.showModal === 'function') {
+  const input = $<HTMLInputElement>('#qj-input')!;
+  const rows = $$<HTMLLIElement>('li', qj);
+  let sel = 0;
+  const visible = () => rows.filter((r) => !r.hidden);
+  const mark = () => visible().forEach((r, i) => r.setAttribute('aria-selected', String(i === sel)));
+  const filter = () => {
+    const q = input.value.trim().toLowerCase();
+    rows.forEach((r) => (r.hidden = !!q && !r.dataset.q!.includes(q)));
+    sel = 0; mark();
+  };
+  const go = (r?: HTMLLIElement) => {
+    if (!r) return;
+    const href = r.dataset.href!;
+    qj.close();
+    if (href === '#copy') navigator.clipboard.writeText(r.dataset.email!).then(() => say('Email copied'), () => say(r.dataset.email!));
+    else if (/^https?:/.test(href)) open(href, '_blank', 'noopener');
+    else location.href = href;
+  };
+  const toggle = () => {
+    if (qj.open) return qj.close();
+    qj.hidden = false; input.value = ''; filter(); qj.showModal(); input.focus();
+  };
+  addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); toggle(); }
+  });
+  input.addEventListener('input', filter);
+  qj.addEventListener('keydown', (e) => {
+    const n = visible().length;
+    if (e.key === 'ArrowDown') { e.preventDefault(); sel = (sel + 1) % n; mark(); visible()[sel]?.scrollIntoView({ block: 'nearest' }); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); sel = (sel - 1 + n) % n; mark(); visible()[sel]?.scrollIntoView({ block: 'nearest' }); }
+    if (e.key === 'Enter') { e.preventDefault(); go(visible()[sel]); }
+  });
+  qj.addEventListener('click', (e) => {
+    const r = (e.target as HTMLElement).closest<HTMLLIElement>('li');
+    if (r) go(r); else if (e.target === qj) qj.close();
+  });
+}

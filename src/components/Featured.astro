@@ -1,6 +1,9 @@
 ---
+import { getCollection } from 'astro:content';
 import { featured } from '../data/projects';
 import { srcset, src } from '../lib/cloudinary';
+
+const summaries = Object.fromEntries((await getCollection('case-studies')).map((e) => [e.id, e.data.summary]));
 ---
 <section class="section wrap" id="featured" aria-labelledby="featured-title">
   <header class="head reveal">
@@ -12,14 +15,14 @@ import { srcset, src } from '../lib/cloudinary';
       <li class="reveal">
         <a class="card" href={`/work/${p.caseStudy}`}>
           <img
-            src={src(p.image, 960)} srcset={srcset(p.image)} sizes="(min-width: 900px) 33vw, 100vw"
+            src={src(p.image, 960)} srcset={srcset(p.image)} sizes="(min-width: 760px) 50vw, 100vw"
             width={p.width} height={p.height} alt={p.alt}
             loading="lazy" decoding="async" style={`background:${p.dominantColor}`}
           />
           <span class="meta">
             <span class="num">0{i + 1}</span>
             <span class="t">{p.title}</span>
-            <span class="o"><mark class="add">[ADD one-line outcome]</mark></span>
+            <span class="o">{summaries[p.caseStudy!]}</span>
             <span class="go" aria-hidden="true">Read case study →</span>
           </span>
         </a>
@@ -30,7 +33,7 @@ import { srcset, src } from '../lib/cloudinary';
 <style>
   .head { margin-bottom: 48px; display: grid; gap: 12px; }
   .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px; }
-  @media (min-width: 900px) { .list { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 760px) { .list { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; } }
   .card { display: grid; gap: 20px; text-decoration: none; }
   img { width: 100%; border-radius: 14px; box-shadow: var(--shadow); transition: transform 0.35s cubic-bezier(.2,.8,.2,1); }
   .card:hover img { transform: translateY(-4px); }

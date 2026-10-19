@@ -7,7 +7,7 @@ Astro, static output, Markdown content, ~2 KB gzipped of vanilla JS on the home 
 ```bash
 npm install
 npm run dev            # http://localhost:4321
-npm run covers:measure # once, on a machine that can reach res.cloudinary.com
+npm run covers:measure # after adding/changing a cover (needs access to res.cloudinary.com)
 npm run check          # lists every [ADD …], unconfirmed project and unmeasured cover
 npm run build          # preview build, always succeeds
 npm run build:prod     # runs check first and FAILS if anything is left. Netlify uses this.
@@ -26,16 +26,16 @@ Unknown text is a visible `[ADD …]` marker. `npm run check` finds them all.
 
 ## Add a project to the gallery
 
-Append one object to `raw` in `src/data/projects.ts` (id, title, category, Cloudinary path after `/upload/`). Then run `npm run covers:measure` to record its real width, height and dominant colour. Set the project's `confirmed` and `altVerified` flags to true after you review it. Images are always served through `src/lib/cloudinary.ts` (`f_auto,q_auto`, 480/720/960 grid widths, 1600 lightbox), never as raw PNGs.
+Append one object to `raw` in `src/data/projects.ts` (id, title, category, one-line descriptor, alt text written from the cover, Cloudinary path after `/upload/`). Then run `npm run covers:measure` to record its real width, height and dominant colour. Optional: add its Behance URL or live site to the `behance` / `live` maps in the same file. The gallery lays covers out in justified rows from their real ratios, so no cropping or layout code is needed. Images are always served through `src/lib/cloudinary.ts` (`f_auto,q_auto`, 480/720/960 grid widths, 1600 lightbox), never as raw PNGs.
 
 ## Add a case study
 
-Copy `src/content/case-studies/_template.md` to `src/content/case-studies/<slug>.md`, fill in the frontmatter (`project` is a project id from `projects.ts`), and set `featured: true` plus `caseStudy: '<slug>'` on that project in `projects.ts` to get the badge and the link. Sections are plain Markdown headings. The before/after slider is the `<figure class="compare" data-compare>` block in the template. Delete the "Handoff & build notes" section if you don't need it.
+Copy `src/content/case-studies/_template.md` to `src/content/case-studies/<slug>.md`, fill in the frontmatter (`project` is a project id from `projects.ts`; `timeline` and `team` are optional, so leave out what you can't state honestly), and add `featured: true, caseStudy: '<slug>'` to that project's entry in `projects.ts` to get the badge, the link and a card in the Featured section. Sections are plain Markdown headings. The before/after slider is the `<figure class="compare" data-compare>` block in the template. Delete the "Handoff & build notes" section if you don't need it.
 
 ## Replace images and the CV
 
 - Case-study placeholders: overwrite files in `public/placeholders/` or point the Markdown at new images.
-- CV: put the PDF at `public/isaac-conteh-cv.pdf`.
+- CV: put the PDF at `public/isaac-conteh-cv.pdf`. The Download CV button on About appears automatically once the file exists.
 - Open Graph image is built from the Flixx Jobs cover (`ogImage()` in `cloudinary.ts`).
 
 ## Deploy to Netlify
@@ -54,3 +54,11 @@ npm run lighthouse
 ```
 
 Targets: 95+ in all four categories on mobile, JS under 30 KB gzipped, INP under 200 ms.
+
+## Keyboard
+
+Ctrl/Cmd + K opens a quick-jump list (pages, case studies, every project, Behance, LinkedIn, copy email).
+
+## Not on the site yet
+
+Headshot, CV PDF, per-project Behance links for most covers, and the Medium/music links. Nothing breaks without them. Add them when ready.

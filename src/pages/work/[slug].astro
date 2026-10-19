@@ -13,9 +13,9 @@ const { Content, headings } = await render(entry);
 const d = entry.data;
 const p = byId(d.project);
 const sections = [{ slug: 'overview', text: 'Overview' }, ...headings.filter((h) => h.depth === 2)];
-const overview: [string, string][] = [['Role', d.role], ['Timeline', d.timeline], ['Team', d.team], ['Platform', d.platform], ['Tools', d.tools.join(', ')]];
+const overview = ([['Role', d.role], ['Timeline', d.timeline], ['Team', d.team], ['Platform', d.platform], ['Tools', d.tools.join(', ')]] as [string, string | undefined][]).filter(([, v]) => v) as [string, string][];
 ---
-<Base title={`${d.title} — case study · Isaac Conteh`} description={d.summary.startsWith('[ADD') ? `Case study: ${d.title}` : d.summary} image={ogImage(p.image)}>
+<Base title={`${d.title} — case study · Isaac Conteh`} description={d.summary} image={ogImage(p.image)}>
   <div class="progress" aria-hidden="true"></div>
   <article class="wrap cs">
     <header class="top" id="overview">
@@ -34,6 +34,12 @@ const overview: [string, string][] = [['Role', d.role], ['Timeline', d.timeline]
       <div class="prose"><Content /></div>
     </div>
 
+ {d.behance && (
+      <a class="behance-link" href={d.behance} target="_blank" rel="noopener">
+        <span class="eyebrow">Go deeper</span>
+        <span class="big">Full case study with research artefacts on Behance <span aria-hidden="true">↗</span></span>
+      </a>
+    )}
     <a class="next" href={`/work/${next.id}`}>
       <span class="eyebrow">Next case study</span>
       <span class="big">{next.data.title} <span aria-hidden="true">→</span></span>
@@ -83,10 +89,10 @@ const overview: [string, string][] = [['Role', d.role], ['Timeline', d.timeline]
   .prose h3 { font-size: 1.7rem; margin: 36px 0 12px; }
   .prose p, .prose ul { margin: 0 0 1.1em; }
   .prose img { width: 100%; height: auto; border-radius: 12px; margin: 24px 0; box-shadow: var(--shadow); }
-  .next { display: grid; gap: 10px; margin-top: 96px; padding: clamp(28px, 5vw, 56px); border: 1px solid var(--ink); border-radius: 20px; text-decoration: none; transition: background-color 0.25s, color 0.25s; }
-  .next .big { font-family: var(--display); font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.05; }
-  .next:hover { background: var(--ink); color: var(--bg); }
-  .next:hover .eyebrow { color: inherit; opacity: 0.7; }
+  .behance-link, .next { display: grid; gap: 10px; margin-top: 48px; padding: clamp(28px, 5vw, 56px); border: 1px solid var(--ink); border-radius: 20px; text-decoration: none; transition: background-color 0.25s, color 0.25s; }
+  .behance-link .big, .next .big { font-family: var(--display); font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.05; }
+  .behance-link:hover, .next:hover { background: var(--ink); color: var(--bg); }
+  .behance-link:hover .eyebrow, .next:hover .eyebrow { color: inherit; opacity: 0.7; }
 
   /* Before/after compare: enhanced by site.ts, plain stacked images without JS */
   .compare { margin: 28px 0; }

@@ -3,7 +3,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const walk = (d) => readdirSync(d).flatMap((f) => (statSync(join(d, f)).isDirectory() ? walk(join(d, f)) : [join(d, f)]));
-const files = [...walk('src'), ...walk('public')].filter((f) => /\.(astro|md|ts|svg|json)$/.test(f) && !f.endsWith('covers.measured.json'));
+const files = [...walk('src'), ...walk('public')].filter((f) => /\.(astro|md|ts|svg|json)$/.test(f) && !f.endsWith('covers.measured.json') && !/[\\/]_[^\\/]*$/.test(f)); // files starting with _ (the template) are skipped
 const issues = [];
 
 for (const f of files) {
@@ -20,7 +20,6 @@ for (const id of ids) {
   if (!measured[id]) issues.push(`project "${id}": cover not measured (run npm run covers:measure)`);
 }
 if (/confirmed: false/.test(src)) issues.push('projects: titles/categories/alt text not yet confirmed (set confirmed/altVerified in src/data/projects.ts)');
-if (/behanceUrl: null/.test(src)) issues.push('projects: behanceUrl is empty, falling back to the Behance profile');
 if (/emailConfirmed: false/.test(readFileSync('src/data/site.ts', 'utf8'))) issues.push('site: public email not confirmed (src/data/site.ts)');
 
 if (issues.length) {

@@ -1,6 +1,10 @@
 ---
 import Base from '../layouts/Base.astro';
+import { existsSync } from 'node:fs';
 import { site } from '../data/site';
+
+// The CV button only appears once public/isaac-conteh-cv.pdf exists.
+const hasCv = existsSync('public/isaac-conteh-cv.pdf');
 ---
 <Base title="About — Isaac Conteh" description="Digital UX Lead in Doha. Four countries, four very different sets of users. Research and data-led, bilingual LTR/RTL, and I can build what I design.">
   <article class="wrap about">
@@ -10,9 +14,9 @@ import { site } from '../data/site';
       <p>I’m Isaac, a UX designer who started in Sierra Leone and has since worked in Malaysia, Saudi Arabia and now Qatar. Each move changed who I was designing for, and taught me to trust what people do over what they say.</p>
       <p>Today I lead digital user experience at Vodafone in Doha, working with stakeholders and teams, not just screens. My MSc in data analytics means decisions are backed by behaviour, not opinion. At Tammwel I shipped a bilingual Arabic/English interface, so right-to-left is a habit, not an afterthought.</p>
       <p>I also write frontend code, which makes handoff smoother. I built this site by hand.</p>
-      <p><mark class="add">[ADD a short, personal paragraph in your own words]</mark></p>
-      <p><a class="btn primary" href={site.cv}>Download CV (PDF)</a></p>
-      <p class="off">Off the clock: I play guitar, piano and drums and make music. <mark class="add">[ADD link to music]</mark></p>
+      <p>My route here: a BSc in Software Engineering with Multimedia at Limkokwing University in Malaysia (First Class), then product work in Saudi Arabia and Sierra Leone before Qatar. Alongside my current role I completed an MSc in Data Analytics and Project Management at Arden University.</p>
+      {hasCv && <p><a class="btn primary" href={site.cv}>Download CV (PDF)</a></p>}
+      <p class="off">Off the clock: I play guitar, piano and drums and make music.</p>
     </div>
     <h2>Tools &amp; education</h2>
     <ul class="cols">

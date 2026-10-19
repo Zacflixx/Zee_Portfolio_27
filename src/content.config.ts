@@ -10,11 +10,12 @@ const caseStudies = defineCollection({
     summary: z.string(), // one-line outcome shown on cards and in meta tags
     order: z.number(), // position in the "next case study" chain
     role: z.string(),
-    timeline: z.string(),
-    team: z.string(),
+    timeline: z.string().optional(), // leave out what you can't state honestly
+    team: z.string().optional(),
     platform: z.string(),
     tools: z.array(z.string()),
-    status: z.enum(['draft', 'ready']).default('draft'),
+    behance: z.string().url().optional(), // full write-up with the research artefacts
+    status: z.enum(['draft', 'ready']).default('ready'),
   }),
 });
 

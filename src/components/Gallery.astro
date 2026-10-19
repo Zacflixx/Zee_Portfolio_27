@@ -2,15 +2,7 @@
 import { projects, categories, BEHANCE_PROFILE } from '../data/projects';
 import { srcset, src, lightbox } from '../lib/cloudinary';
 
-// Row rhythm on a 12-column grid (each group sums to 12). Featured cards take the larger slots.
-const spans = [7, 5, 4, 4, 4, 5, 7, 3, 3, 3, 3, 6, 6, 4, 4, 4, 8, 4, 6, 6];
-const bigSlots = [0, 6, 12, 16];
-const feat = projects.filter((p) => p.featured);
-const rest = projects.filter((p) => !p.featured);
-const ordered = [];
-for (let i = 0, f = 0, r = 0; i < projects.length; i++) {
-  ordered.push(bigSlots.includes(i) && f < feat.length ? feat[f++] : rest[r++] ?? feat[f++]);
-}
+const ordered = projects;
 ---
 <section class="section wrap" id="work" aria-labelledby="work-title">
   <header class="head reveal">
@@ -26,19 +18,19 @@ for (let i = 0, f = 0, r = 0; i < projects.length; i++) {
   </div>
 
   <ul class="grid" id="grid">
-    {ordered.map((p, i) => (
-      <li class="item reveal" data-cat={p.category} data-id={p.id} style={`--span:${spans[i]}`}>
+    {ordered.map((p) => (
+      <li class="item reveal" id={`p-${p.id}`} data-cat={p.category} data-id={p.id} style={`--r:${(p.width / p.height).toFixed(4)}`}>
         <a
           class="tile"
           href={p.caseStudy ? `/work/${p.caseStudy}` : p.behanceUrl ?? BEHANCE_PROFILE}
           {...(p.caseStudy ? {} : { 'data-open': p.id, target: '_blank', rel: 'noopener' })}
           data-title={p.title} data-category={p.category} data-descriptor={p.descriptor}
-          data-full={lightbox(p.image)} data-alt={p.alt} data-behance={p.behanceUrl ?? BEHANCE_PROFILE}
+          data-full={lightbox(p.image)} data-alt={p.alt} data-behance={p.behanceUrl ?? BEHANCE_PROFILE} data-live={p.liveUrl ?? ''}
         >
           <span class="frame" style={`background:${p.dominantColor}`}>
             <img
               src={src(p.image, 720)} srcset={srcset(p.image)}
-              sizes={`(min-width: 900px) ${Math.round((spans[i] / 12) * 100)}vw, (min-width: 560px) 50vw, 100vw`}
+              sizes="(min-width: 900px) 33vw, (min-width: 560px) 50vw, 100vw"
               width={p.width} height={p.height} alt={p.alt}
               loading="lazy" decoding="async"
             />
@@ -64,6 +56,7 @@ for (let i = 0, f = 0, r = 0; i < projects.length; i++) {
       <div><strong id="lb-title"></strong> <span id="lb-cat"></span><p id="lb-desc"></p></div>
       <div class="acts">
         <button type="button" id="lb-prev" aria-label="Previous project">←</button>
+        <a id="lb-live" class="btn" href="/" target="_blank" rel="noopener" hidden>Live site ↗</a>
         <a id="lb-link" class="btn" href={BEHANCE_PROFILE} target="_blank" rel="noopener">View on Behance ↗</a>
         <button type="button" id="lb-next" aria-label="Next project">→</button>
       </div>
@@ -75,15 +68,20 @@ for (let i = 0, f = 0, r = 0; i < projects.length; i++) {
   .head { margin-bottom: 40px; display: grid; gap: 12px; max-width: 760px; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
   .js .chips { display: flex; }
+  .item { align-self: flex-start; }
   .chip { font: inherit; font-size: 0.93rem; font-weight: 500; padding: 0.5em 1em; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; transition: background-color 0.2s, color 0.2s; }
   .chip span { color: var(--muted); margin-left: 0.3em; font-size: 0.85em; }
   .chip:hover { border-color: var(--ink); }
   .chip[aria-pressed='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
   .chip[aria-pressed='true'] span { color: inherit; opacity: 0.7; }
 
-  .grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 40px 24px; grid-template-columns: 1fr; align-items: start; grid-auto-flow: dense; }
-  @media (min-width: 560px) { .grid { grid-template-columns: repeat(2, 1fr); } .item { grid-column: span 1; } .item:nth-child(7n+1) { grid-column: span 2; } }
-  @media (min-width: 900px) { .grid { grid-template-columns: repeat(12, 1fr); gap: 56px 28px; } .item, .item:nth-child(7n+1) { grid-column: span var(--span); } }
+  /* Justified rows: width and flex-grow follow each cover's own ratio (--r), so every row shares one height and no cover is cropped. */
+  .grid { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 44px 24px; }
+  .grid::after { content: ''; flex: 1000 1 0; } /* keeps the last row at natural size */
+  .item { flex: var(--r) 1 calc(var(--r) * 200px); min-width: 0; }
+  @media (min-width: 560px) { .item { flex-basis: calc(var(--r) * 190px); } }
+  @media (min-width: 900px) { .item { flex-basis: calc(var(--r) * 215px); } .grid { gap: 56px 28px; } }
+  @media (max-width: 559px) { .item { flex-basis: 100%; } }
   .item[hidden] { display: none; }
 
   .tile { display: grid; gap: 14px; text-decoration: none; }
@@ -108,6 +106,7 @@ for (let i = 0, f = 0, r = 0; i < projects.length; i++) {
   .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 20px; border-top: 1px solid var(--line); }
   #lb-cat { color: var(--muted); margin-left: 8px; }
   #lb-desc { color: var(--muted); font-size: 0.93rem; }
+  #lb-live[hidden] { display: none; }
   .acts { display: flex; gap: 8px; align-items: center; }
   .acts button, .x { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 1.1rem; cursor: pointer; }
   .acts button:hover, .x:hover { border-color: var(--ink); }

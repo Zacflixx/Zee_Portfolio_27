@@ -1,52 +1,43 @@
 ---
 title: Flixx Jobs
 project: flixx-jobs
-summary: "[ADD one-line outcome]"
+summary: "A job search app for Sierra Leone, designed end to end, from user research to a hi-fi prototype."
 order: 1
-role: "[ADD role]"
-timeline: "[ADD timeline]"
-team: "[ADD team]"
-platform: Mobile app
+role: "UX research and design"
+platform: "Mobile app"
 tools: ["Figma"]
-status: draft
+behance: "https://www.behance.net/gallery/151212775/Flixx-Jobs-UX-Case-Study"
+status: ready
 ---
 
-## The problem
+## The project
 
-[ADD the problem: who struggled, with what, and how you know.]
+Flixx Jobs is a self-initiated UX case study for a mobile job search app aimed at people looking for work in Sierra Leone: *Find your next career. Explore all jobs in Sierra Leone.* The study covers both sides of the market, the job seekers and the recruiters who hire them.
 
-## Research
+## Process
 
-[ADD what I did: methods, number of participants or data sources.]
+I worked through the design-thinking process and documented each stage, so every screen can be traced back to something I learned from users.
 
-[ADD what I found: two or three findings, each tied to a decision below.]
+### Empathise: user research
 
-## Process and key decisions
+Quantitative and qualitative research, from which I pulled out user needs and pain points.
 
-### Decision 1: [ADD]
+### Define: personas and goals
 
-- **Options considered:** [ADD option A] / [ADD option B]
-- **Chose:** [ADD]
-- **Why:** [ADD]
+A problem statement with objectives and goals, two personas (a job seeker and a recruiter), and an empathy map for each way of looking at the problem.
 
-<figure class="compare" data-compare data-caption="[ADD what changed between these two screens]">
-  <img src="/placeholders/flixx-before.svg" width="1600" height="1000" alt="Before: [ADD describe the old screen]" loading="lazy" />
-  <img src="/placeholders/flixx-after.svg" width="1600" height="1000" alt="After: [ADD describe the new screen]" loading="lazy" />
-</figure>
+### Ideate: structure before screens
+
+Brainstorming and card sorting fed the information architecture, so the app's navigation was settled before any visual design.
+
+### Prototype
+
+Low-fidelity wireframes first, then a high-fidelity prototype in Figma.
 
 ## Final design
 
-[ADD final design walkthrough.]
-
-<img src="/placeholders/flixx-final.svg" width="1600" height="1000" alt="[ADD describe the final screens]" loading="lazy" />
+The prototype covers an onboarding screen, a home feed of the most popular jobs with category chips such as accounting, sales and tech, a job detail view with requirements and the skills needed, and a list of the jobs a user has applied for, with recommendations.
 
 ## Results and learnings
 
-[ADD results. If there is no number, write a qualitative outcome and say so honestly. Never invent metrics.]
-
-**What I would do differently:** [ADD]
-
-## Handoff & build notes
-
-[ADD optional notes on specs, tokens, components and how it was built. Delete this whole section if not needed.]
-
+This is a self-initiated project, so there are no launch metrics to report. What it delivers is the research trail, the persona-led structure of the app, and a hi-fi prototype ready for usability testing. The full write-up, with all the research artefacts, is on Behance.

@@ -12,7 +12,7 @@ import { site } from '../data/site';
         <li><a href={site.medium} rel="noopener" target="_blank">Medium</a></li>
       </ul>
     </div>
-    <p class="small">© {new Date().getFullYear()} Isaac B. Conteh. Designed and hand-built by me.</p>
+    <p class="small">© {new Date().getFullYear()} Isaac B. Conteh. Designed and hand-built by me. <span class="hint">Tip: press Ctrl/⌘ + K to jump anywhere.</span></p>
   </div>
 </footer>
 <style>
@@ -21,5 +21,7 @@ import { site } from '../data/site';
   .big { font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.1; max-width: 18ch; }
   ul { display: flex; gap: 24px; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; }
   a { font-weight: 500; }
+  .hint { display: none; }
+  @media (hover: hover) { .hint { display: inline; } }
   .small { margin-top: 48px; color: var(--muted); font-size: 0.9rem; }
 </style>
