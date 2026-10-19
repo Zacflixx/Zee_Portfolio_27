@@ -1,0 +1,39 @@
+/* Homepage 2: cool grey, electric blue, expressive grotesque. Light by default (set in Base's inline script). */
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 200 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  src: url('/fonts/bricolage-grotesque-latin-wdth-normal.woff2') format('woff2-variations');
+}
+
+:root[data-design='2'] {
+  scroll-behavior: auto; /* Lenis handles smoothing */
+  --bg: #edeef1;
+  --surface: #f8f9fb;
+  --ink: #0e0f12;
+  --muted: #565b67;
+  --line: #d3d6dd;
+  --accent: #2747ff;
+  --accent-ink: #ffffff;
+  --shadow: 0 1px 2px rgb(14 15 18 / 0.06), 0 24px 48px -24px rgb(14 15 18 / 0.35);
+  --display: 'Bricolage Grotesque', 'Arial Narrow', system-ui, sans-serif;
+  color-scheme: light;
+}
+:root[data-design='2'][data-theme='dark'] {
+  --bg: #0c0d10;
+  --surface: #16181d;
+  --ink: #eceef2;
+  --muted: #9aa0ac;
+  --line: #272a31;
+  --accent: #8c9bff;
+  --accent-ink: #0c0d10;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 24px 48px -24px rgb(0 0 0 / 0.8);
+  color-scheme: dark;
+}
+:root[data-design='2'] h1,
+:root[data-design='2'] h2,
+:root[data-design='2'] h3 { font-weight: 700; letter-spacing: -0.03em; font-stretch: 80%; }
+:root[data-design='2'] .brand { font-weight: 700; font-stretch: 80%; letter-spacing: -0.02em; font-size: 1.45rem; }
+:root[data-design='2'] .ftr .big { font-weight: 700; font-stretch: 80%; letter-spacing: -0.03em; }

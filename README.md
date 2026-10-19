@@ -55,6 +55,16 @@ npm run lighthouse
 
 Targets: 95+ in all four categories on mobile, JS under 30 KB gzipped, INP under 200 ms.
 
+## Homepage 2 (experimental)
+
+`/home-2` is a second, more expressive homepage for comparison: cool grey and electric blue, Bricolage Grotesque, light theme by default (its theme choice is stored separately from Homepage 1). The header's **Homepage 1 / 2** switch flips between them. It is marked `noindex` and left out of the sitemap so it doesn't compete with the main homepage.
+
+- Code: `src/pages/home-2.astro` (markup + styles), `src/scripts/home2.ts` (motion), `src/styles/design2.css` (tokens + font).
+- Libraries, only on this page: [GSAP](https://gsap.com) + ScrollTrigger (pinning, scrubbed scroll animation) and [Lenis](https://lenis.darkroom.engineering) (smooth scroll). About 51 KB gzipped together; Homepage 1 still ships ~2.4 KB.
+- Sections: kinetic name over parallax covers → scroll-revealed manifesto → stacking "page-pile" strength cards → four-country route + velocity marquee of skills → pinned horizontal project reel → index list with cursor preview → full-screen case-study pile → scroll-speed marquee and magnetic email.
+- With `prefers-reduced-motion` or without JS, everything is static and readable and the reel becomes a native swipeable row.
+- To make it the main homepage: swap the contents of `src/pages/index.astro` and `src/pages/home-2.astro` (and drop `noindex`).
+
 ## Keyboard
 
 Ctrl/Cmd + K opens a quick-jump list (pages, case studies, every project, Behance, LinkedIn, copy email).

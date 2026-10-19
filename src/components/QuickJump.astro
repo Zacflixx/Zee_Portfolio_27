@@ -6,6 +6,7 @@ import { site } from '../data/site';
 const studies = await getCollection('case-studies');
 const entries = [
   { label: 'Home', group: 'Pages', href: '/' },
+  { label: 'Homepage 2', group: 'Pages', href: '/home-2' },
   { label: 'About', group: 'Pages', href: '/about' },
   { label: 'Contact', group: 'Pages', href: '/contact' },
   ...studies.map((s) => ({ label: `${s.data.title} (case study)`, group: 'Case studies', href: `/work/${s.id}` })),

@@ -19,7 +19,7 @@ $('#theme-toggle')?.addEventListener('click', () => {
   const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
   const next = dark ? 'light' : 'dark';
   root.dataset.theme = next;
-  try { localStorage.setItem('theme', next); } catch {}
+  try { localStorage.setItem(root.dataset.design === '2' ? 'theme2' : 'theme', next); } catch {}
 });
 
 /* Copy email */
