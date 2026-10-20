@@ -30,11 +30,17 @@ $$('[data-copy]').forEach((b) =>
   }),
 );
 
-/* Live Doha clock: updates only while visible */
+/* Live local clock: the visitor's own city (from their time zone) and time. Falls back to Doha. Updates only while visible. */
 const clock = $('[data-clock]');
 if (clock) {
-  const fmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Qatar' });
-  const tick = () => { if (!document.hidden) clock.textContent = `Doha, ${fmt.format(new Date())}`; };
+  let zone = 'Asia/Qatar', city = 'Doha';
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const parts = tz.split('/');
+    if (tz && parts.length > 1 && parts[0] !== 'Etc') { zone = tz; city = parts[parts.length - 1].replace(/_/g, ' '); if (tz === 'Asia/Qatar') city = 'Doha'; }
+  } catch {}
+  const fmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: zone });
+  const tick = () => { if (!document.hidden) clock.textContent = `${city}, ${fmt.format(new Date())}`; };
   tick();
   setInterval(tick, 30_000);
   document.addEventListener('visibilitychange', tick);
