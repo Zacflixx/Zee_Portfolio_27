@@ -390,7 +390,7 @@ const filters = [
   /* Spotlight: hovering one card gently dims the rest */
   @media (hover: hover) { .board:hover .pj { opacity: 0.55; transition: opacity 0.3s; } .board .pj:hover, .board .pj:focus-within { opacity: 1; } }
 
-  /* View: contact sheet. All twenty fit one screen, titles on hover */
+  /* View: contact sheet. All of them fit one screen, titles on hover */
   .board[data-view='sheet'] { --cols: 3; gap: 12px; }
   @media (min-width: 700px) { .board[data-view='sheet'] { --cols: 5; } }
   .board[data-view='sheet'] .pj.is-feat { grid-column: span 1; }
