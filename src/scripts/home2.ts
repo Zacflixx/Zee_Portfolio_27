@@ -58,21 +58,15 @@ if (dlg && typeof dlg.showModal === 'function') {
   }, { passive: true });
 }
 
-/* ---------- Work explorer: filter, sort, view; Flip glides everything to its new place ---------- */
+/* ---------- Work explorer: filter, view; Flip glides everything to its new place ---------- */
 const board = $('[data-board]');
 if (board) {
   const cards = $$('.pj', board);
   const bar = $('[data-bar]');
   const countEl = $('[data-count]');
-  const catOrder = ['Mobile app', 'Website', 'Dashboard'];
-  let filter = 'All', sort = 'default', view = 'mosaic';
+  let filter = 'All', view = 'mosaic';
 
   const matches = (c: HTMLElement) => filter === 'All' || (filter === 'Case study' ? c.dataset.feat === '1' : c.dataset.cat === filter);
-  const sorters: Record<string, (a: HTMLElement, b: HTMLElement) => number> = {
-    default: (a, b) => Number(a.dataset.i) - Number(b.dataset.i),
-    az: (a, b) => a.dataset.title!.localeCompare(b.dataset.title!),
-    type: (a, b) => catOrder.indexOf(a.dataset.cat!) - catOrder.indexOf(b.dataset.cat!) || Number(a.dataset.i) - Number(b.dataset.i),
-  };
 
   // Masonry: 6px tracks, each card spans as many as its tile is tall
   const layout = () => {
@@ -85,7 +79,6 @@ if (board) {
 
   const apply = () => {
     cards.forEach((c) => (c.hidden = !matches(c)));
-    [...cards].sort(sorters[sort]).forEach((c) => board.appendChild(c));
     board.dataset.view = view;
     if (countEl) countEl.textContent = String(cards.filter((c) => !c.hidden).length);
     layout();
@@ -112,7 +105,6 @@ if (board) {
     }));
   };
   wire('data-filter', (v) => (filter = v));
-  wire('data-sort', (v) => (sort = v));
   wire('data-view-btn', (v) => (view = v));
 
   // Re-measure on resize and once images/fonts settle

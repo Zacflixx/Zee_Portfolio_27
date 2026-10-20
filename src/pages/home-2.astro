@@ -105,7 +105,7 @@ const filters = [
       ))}
     </section>
 
-    <!-- 5 · WORK: one explorer, every project visible, filter / sort / three views -->
+    <!-- 5 · WORK: one explorer, every project visible, filter and three views -->
     <section class="work" id="work" aria-labelledby="work-title">
       <div class="wrap">
         <header class="w-head">
@@ -113,19 +113,13 @@ const filters = [
             <p class="label">Projects worked on</p>
             <h2 class="w-title" id="work-title">Work<sup>({projects.length})</sup></h2>
           </div>
-          <p class="w-sub">All of it, on one board. Filter by type, re-sort it, or change how it's laid out. Everything glides to its new place.</p>
+          <p class="w-sub">All of it, on one board. Filter by type or change how it's laid out. Everything glides to its new place.</p>
         </header>
 
         <div class="bar" data-bar hidden>
           <div class="grp" role="group" aria-label="Filter by type">
             <span class="g-l">Show</span>
             {filters.map((f, i) => <button type="button" aria-pressed={i === 0 ? 'true' : 'false'} data-filter={f.key}>{f.label} <i>{f.n}</i></button>)}
-          </div>
-          <div class="grp" role="group" aria-label="Sort">
-            <span class="g-l">Sort</span>
-            <button type="button" aria-pressed="true" data-sort="default">Default</button>
-            <button type="button" aria-pressed="false" data-sort="az">A–Z</button>
-            <button type="button" aria-pressed="false" data-sort="type">Type</button>
           </div>
           <div class="grp" role="group" aria-label="Layout">
             <span class="g-l">View</span>
