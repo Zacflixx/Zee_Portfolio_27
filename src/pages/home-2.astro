@@ -26,7 +26,7 @@ const floaters = [
 ].map(([id, x, y, w, r, d]) => ({ p: byId(id === 'taheel' ? 'tahel-coo' : (id as string)), x, y, w, r, d }));
 
 const manifesto =
-  'I design around what people actually do, not just what they say, and I build what I design.';
+  'I design from real user behaviour, and build it myself.';
 
 const strengths = [
   { n: '01', t: 'Leads digital experience', b: 'Digital User Experience Lead, delivering end-to-end journeys across digital channels, shaped with stakeholders and teams, not just screens.', kind: 'ink', img: byId('telecom-app') },
@@ -166,7 +166,7 @@ const filters = [
     <section class="manifesto" id="manifesto" aria-label="About me">
       <div class="m-in">
         <p class="label">About</p>
-        <p class="m-text" set:html={words(manifesto, ['actually', 'do,', 'behaviour'])} />
+        <p class="m-text" set:html={words(manifesto, ['behaviour,', 'myself.'])} />
       </div>
     </section>
 
