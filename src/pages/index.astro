@@ -1,10 +1,13 @@
 ---
+import { existsSync } from 'node:fs';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { projects, byId, BEHANCE_PROFILE } from '../data/projects';
 import { site } from '../data/site';
 import { srcset, src, lightbox } from '../lib/cloudinary';
 
+// The résumé button appears only once public/isaac-conteh-cv.pdf exists.
+const hasCv = existsSync('public/isaac-conteh-cv.pdf');
 const chars = (word: string) => [...word].map((c, i) => `<span class="c" style="--i:${i}">${c}</span>`).join('');
 const words = (text: string, accent: string[] = []) =>
   text
@@ -232,6 +235,7 @@ const filters = [
           <button class="pill copy-email" type="button" data-copy={site.email} hidden>Copy email</button>
           <a class="pill" href={site.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
           <a class="pill" href={site.behance} target="_blank" rel="noopener">Behance ↗</a>
+          {hasCv && <a class="pill pill-cv" href={site.cv} download>Download resume ↓</a>}
         </div>
       </div>
     </section>
@@ -453,6 +457,8 @@ const filters = [
   .c-row { display: flex; flex-wrap: wrap; gap: 10px; }
   .pill { font: inherit; font-weight: 600; display: inline-flex; padding: 0.75em 1.3em; border-radius: 999px; border: 1px solid var(--ink); background: transparent; color: var(--ink); text-decoration: none; cursor: pointer; transition: background-color 0.2s, color 0.2s; }
   .pill:hover { background: var(--ink); color: var(--bg); }
+  .pill-cv { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .pill-cv:hover { background: var(--ink); border-color: var(--ink); }
   :global(.js) .copy-email { display: inline-flex; }
 
   /* ---------- Lightbox ---------- */

@@ -13,7 +13,7 @@ const hasCv = existsSync('public/isaac-conteh-cv.pdf');
     <div class="body">
       <p>I’m a UX designer who started in Sierra Leone and has since worked in Malaysia, Saudi Arabia and now Qatar. Each move changed who I was designing for, and taught me to trust what people do over what they say.</p>
       <p>Today I lead digital user experience, working with stakeholders and teams, not just screens. I read analytics alongside research, shipped a bilingual Arabic/English interface at Tammwel, and write frontend code myself, so handoff is smooth. I built this site by hand.</p>
-      {hasCv && <p><a class="btn primary" href={site.cv}>Download CV (PDF)</a></p>}
+      {hasCv && <p><a class="btn primary" href={site.cv} download>Download resume ↓</a></p>}
       <p class="off">Off the clock: I play guitar, piano and drums and make music.</p>
     </div>
     <h2>Tools &amp; education</h2>

@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
+import { existsSync } from 'node:fs';
 import { site } from '../data/site';
+const hasCv = existsSync('public/isaac-conteh-cv.pdf');
 ---
 <Base title="Contact — Isaac Conteh" description="Email, LinkedIn and Behance.">
   <section class="wrap c">
@@ -10,6 +12,7 @@ import { site } from '../data/site';
     <div class="row">
       <a class="btn primary" href={`mailto:${site.email}`}>{site.email}</a>
       <button class="btn copy-email" type="button" data-copy={site.email} hidden>Copy email</button>
+      {hasCv && <a class="btn" href={site.cv} download>Download resume ↓</a>}
     </div>
     <ul class="links">
       <li><a href={site.linkedin} target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a></li>
