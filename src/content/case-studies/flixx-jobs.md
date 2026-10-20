@@ -40,4 +40,4 @@ The prototype covers an onboarding screen, a home feed of the most popular jobs 
 
 ## Results and learnings
 
-This is a self-initiated project, so there are no launch metrics to report. What it delivers is the research trail, the persona-led structure of the app, and a hi-fi prototype ready for usability testing. The full write-up, with all the research artefacts, is on Behance.
+This is a self-initiated project, so there are no launch metrics to report. What it delivers is the research trail, the persona-led structure of the app, and a hi-fi prototype ready for usability testing.

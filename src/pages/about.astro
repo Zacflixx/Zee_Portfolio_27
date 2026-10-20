@@ -6,15 +6,13 @@ import { site } from '../data/site';
 // The CV button only appears once public/isaac-conteh-cv.pdf exists.
 const hasCv = existsSync('public/isaac-conteh-cv.pdf');
 ---
-<Base title="About — Isaac Conteh" description="Digital UX Lead in Doha. Four countries, four very different sets of users. Research and data-led, bilingual LTR/RTL, and I can build what I design.">
+<Base title="About — Isaac Conteh" description="Digital UX Lead in Doha. Research- and data-led, bilingual LTR/RTL, and able to build what I design.">
   <article class="wrap about">
     <p class="eyebrow">About</p>
-    <h1>Four countries, four very different sets of users.</h1>
+    <h1>Hi, I’m Isaac.</h1>
     <div class="body">
-      <p>I’m Isaac, a UX designer who started in Sierra Leone and has since worked in Malaysia, Saudi Arabia and now Qatar. Each move changed who I was designing for, and taught me to trust what people do over what they say.</p>
-      <p>Today I lead digital user experience at Vodafone in Doha, working with stakeholders and teams, not just screens. My MSc in data analytics means decisions are backed by behaviour, not opinion. At Tammwel I shipped a bilingual Arabic/English interface, so right-to-left is a habit, not an afterthought.</p>
-      <p>I also write frontend code, which makes handoff smoother. I built this site by hand.</p>
-      <p>My route here: a BSc in Software Engineering with Multimedia at Limkokwing University in Malaysia (First Class), then product work in Saudi Arabia and Sierra Leone before Qatar. Alongside my current role I completed an MSc in Data Analytics and Project Management at Arden University.</p>
+      <p>I’m a UX designer who started in Sierra Leone and has since worked in Malaysia, Saudi Arabia and now Qatar. Each move changed who I was designing for, and taught me to trust what people do over what they say.</p>
+      <p>Today I lead digital user experience, working with stakeholders and teams, not just screens. I read analytics alongside research, shipped a bilingual Arabic/English interface at Tammwel, and write frontend code myself, so handoff is smooth. I built this site by hand.</p>
       {hasCv && <p><a class="btn primary" href={site.cv}>Download CV (PDF)</a></p>}
       <p class="off">Off the clock: I play guitar, piano and drums and make music.</p>
     </div>

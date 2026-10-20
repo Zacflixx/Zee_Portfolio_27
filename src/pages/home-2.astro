@@ -26,12 +26,12 @@ const floaters = [
 ].map(([id, x, y, w, r, d]) => ({ p: byId(id === 'taheel' ? 'tahel-coo' : (id as string)), x, y, w, r, d }));
 
 const manifesto =
-  'I lead digital UX at Vodafone in Doha. I design around what people actually do, not just what they say: research backed by an MSc in data analytics, interfaces shipped in Arabic and English, and code I can write myself.';
+  'I design around what people actually do, not just what they say, and I build what I design.';
 
 const strengths = [
-  { n: '01', t: 'Leads UX at a major telco', b: 'Digital User Experience Lead at Vodafone in Doha since 2022. End-to-end journeys across digital channels, shaped with stakeholders and teams, not just screens.', kind: 'ink', img: byId('telecom-app') },
-  { n: '02', t: 'Research, then data', b: 'An MSc in Data Analytics & Project Management. I read analytics alongside interviews, so decisions rest on behaviour, not opinion.', kind: 'accent', img: byId('tahel-coo') },
-  { n: '03', t: 'Designed end to end', b: 'From research and wireframes to prototypes and polished, mobile-first interfaces. Figma is my main tool, alongside Adobe XD, Sketch, Zeplin, Photoshop and Illustrator. Arabic and English, left-to-right and right-to-left.', kind: 'surface', flow: true },
+  { n: '01', t: 'Leads digital experience', b: 'Digital User Experience Lead in Doha since 2022. End-to-end journeys across digital channels, shaped with stakeholders and teams, not just screens.', kind: 'ink', img: byId('telecom-app') },
+  { n: '02', t: 'Research, then data', b: 'An MSc in Data Analytics & Project Management means decisions rest on behaviour, not opinion.', kind: 'accent', img: byId('tahel-coo') },
+  { n: '03', t: 'Designed end to end', b: 'From research and wireframes to prototypes and polished, mobile-first interfaces, in Arabic and English, left-to-right and right-to-left.', kind: 'surface', flow: true },
   { n: '04', t: 'I can build it', b: 'BSc (Hons) Software Engineering with Multimedia, First Class. HTML/CSS, React, Angular and Vue, so handoff is a conversation, not a throw over the wall.', kind: 'code' },
 ];
 
@@ -39,7 +39,7 @@ const route = [
   { place: 'Sierra Leone', what: 'App UX Developer', where: 'Guaranty Trust Bank, Freetown', when: '2021 — 2022' },
   { place: 'Malaysia', what: 'BSc Software Engineering, First Class · WordPress Developer', where: 'Limkokwing University · CSI Properties, Kuala Lumpur', when: '2019 — 2021' },
   { place: 'Saudi Arabia', what: 'Frontend Developer & Designer', where: 'Tammwel Inc. (remote)', when: '2021 — 2022' },
-  { place: 'Qatar', what: 'Digital User Experience Lead', where: 'Vodafone, Doha', when: '2022 — now' },
+  { place: 'Qatar', what: 'Digital User Experience Lead', where: 'Doha', when: '2022 — now' },
 ];
 
 const skillsA = ['Figma', 'User research', 'Wireframing', 'Prototyping', 'Design thinking', 'Analytics', 'Adobe XD', 'Sketch', 'Zeplin'];
@@ -71,7 +71,7 @@ const filters = [
           <span class="ln ln2" aria-hidden="true" set:html={chars('Conteh')} />
         </h1>
         <div class="hero-foot">
-          <p class="role"><strong>Digital UX Lead</strong> at Vodafone, Doha. Mobile-first products designed around what people actually do.</p>
+          <p class="role"><strong>Digital UX Lead.</strong> Mobile-first products, designed for real behaviour.</p>
           <p class="avail">Open to full-time roles: remote, or relocating to Europe.</p>
           <a class="scroll" href="#work" data-cursor="Scroll"><span>Scroll</span><i aria-hidden="true"></i></a>
         </div>
@@ -93,7 +93,6 @@ const filters = [
               {s.flow && (
                 <ol class="flow">
                   {['Research', 'Wireframes', 'Prototype', 'Pixels'].map((w, i) => <li style={`--k:${i}`}><span>{w}</span><i aria-hidden="true">→</i></li>)}
-                  <li class="tools"><span class="tl">Figma</span><span class="tl">Adobe XD</span><span class="tl">Sketch</span><span class="tl">Zeplin</span></li>
                 </ol>
               )}
               {s.kind === 'code' && (
@@ -228,7 +227,7 @@ const filters = [
       </div></div>
       <div class="wrap c-in">
         <h2 class="sr-only" id="contact-title">Contact</h2>
-        <p class="c-lede">Open to full-time roles, remote or relocating to Europe. Email is the fastest way to reach me.</p>
+        <p class="c-lede">Open to full-time roles, remote or relocating to Europe.</p>
         <a class="c-mail" href={`mailto:${site.email}`} data-magnetic data-cursor="Write"><span>{site.email}</span></a>
         <div class="c-row">
           <button class="pill copy-email" type="button" data-copy={site.email} hidden>Copy email</button>

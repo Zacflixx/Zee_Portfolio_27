@@ -2,11 +2,11 @@
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
 ---
-<Base title="Contact — Isaac Conteh" description="Email, LinkedIn and Behance. Open to full-time remote and European roles.">
+<Base title="Contact — Isaac Conteh" description="Email, LinkedIn and Behance.">
   <section class="wrap c">
     <p class="eyebrow">Contact</p>
     <h1>Let’s talk.</h1>
-    <p class="lede">Open to full-time remote roles and relocation to Europe. Email is the fastest way to reach me.</p>
+    <p class="lede">Open to full-time remote roles and relocation to Europe.</p>
     <div class="row">
       <a class="btn primary" href={`mailto:${site.email}`}>{site.email}</a>
       <button class="btn copy-email" type="button" data-copy={site.email} hidden>Copy email</button>
@@ -16,7 +16,6 @@ import { site } from '../data/site';
       <li><a href={site.behance} target="_blank" rel="noopener">Behance <span aria-hidden="true">↗</span></a></li>
       <li><a href={site.medium} target="_blank" rel="noopener">Medium <span aria-hidden="true">↗</span></a></li>
     </ul>
-    <p class="clock"><span data-clock>Doha, Qatar</span> — overlaps with European mornings</p>
   </section>
 </Base>
 <style>

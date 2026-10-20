@@ -38,4 +38,4 @@ The prototype opens on a splash screen and a home screen set to Freetown, with a
 
 ## Results and learnings
 
-This is a self-initiated project, so there are no sales or usage numbers to report. What it delivers is a research-led structure for the store, evidence from usability testing, and a hi-fi prototype. The full write-up, with all the research and testing artefacts, is on Behance.
+This is a self-initiated project, so there are no sales or usage numbers to report. What it delivers is a research-led structure for the store, evidence from usability testing, and a hi-fi prototype.
