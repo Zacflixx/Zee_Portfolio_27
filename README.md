@@ -55,15 +55,13 @@ npm run lighthouse
 
 Targets: 95+ in all four categories on mobile, JS under 30 KB gzipped, INP under 200 ms.
 
-## Homepage 2 (experimental)
+## Design
 
-`/home-2` is a second, more expressive homepage for comparison: cool grey and electric blue, Bricolage Grotesque, light theme by default (its theme choice is stored separately from Homepage 1). The header's **Homepage 1 / 2** switch flips between them. It is marked `noindex` and left out of the sitemap so it doesn't compete with the main homepage.
+The whole site uses the cool-grey / electric-blue look (`src/styles/design2.css`, Bricolage Grotesque), light by default with a dark toggle. The homepage (`src/pages/index.astro`, motion in `src/scripts/home2.ts`) uses [GSAP](https://gsap.com) with ScrollTrigger and Flip, and [Lenis](https://lenis.darkroom.engineering) for smooth scrolling, only on that page (about 51 KB gzipped).
 
-- Code: `src/pages/home-2.astro` (markup + styles), `src/scripts/home2.ts` (motion), `src/styles/design2.css` (tokens + font).
-- Libraries, only on this page: [GSAP](https://gsap.com) + ScrollTrigger (pinning, scrubbed scroll animation, Flip layout transitions) and [Lenis](https://lenis.darkroom.engineering) (smooth scroll). About 51 KB gzipped together; Homepage 1 still ships ~2.4 KB.
-- Sections: kinetic name over parallax covers → stacking "page-pile" strength cards → project explorer (all 20 on one board, filter / Mosaic · Sheet · List views, GSAP Flip glides cards to their new places) → scroll-revealed manifesto → four-country route + velocity marquee of skills → full-screen case-study pile → scroll-speed marquee and magnetic email.
-- With `prefers-reduced-motion` or without JS, everything is static and readable and the explorer is a plain grid.
-- To make it the main homepage: swap the contents of `src/pages/index.astro` and `src/pages/home-2.astro` (and drop `noindex`).
+Sections: kinetic name over parallax covers, stacking strength cards, project explorer (all projects on one board, filter and Mosaic · Sheet · List views, GSAP Flip glides cards to their new places), scroll-revealed manifesto, four-country route with a velocity marquee of skills, full-screen case-study pile, magnetic contact. With `prefers-reduced-motion` or without JS it is static and readable and the explorer is a plain grid.
+
+The earlier warm-paper homepage is kept at `/home-1` (set to `noindex`, not linked anywhere). Pass `design={1}` to `Base` for a page that should use that look. The old `/home-2` URL redirects to `/`.
 
 ## Keyboard
 

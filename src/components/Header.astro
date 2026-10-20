@@ -1,19 +1,12 @@
 ---
 import { site } from '../data/site';
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/');
-const onHome2 = path === '/home-2';
 const link = (href: string, label: string) => ({ href, label, current: path === href });
-const nav = [link(onHome2 ? '/home-2#work' : '/#work', 'Work'), link('/about', 'About'), link('/contact', 'Contact')];
+const nav = [link('/#work', 'Work'), link('/about', 'About'), link('/contact', 'Contact')];
 ---
 <header class="hdr">
   <div class="wrap hdr-in">
-    <div class="left">
-      <a class="brand" href={onHome2 ? '/home-2' : '/'} aria-label="Isaac Conteh, home">Isaac Conteh</a>
-      <nav class="switch" aria-label="Homepage version">
-        <a href="/" aria-current={path === '/' ? 'page' : undefined}><span class="lg">Homepage </span>1</a>
-        <a href="/home-2" aria-current={onHome2 ? 'page' : undefined}><span class="lg">Homepage </span>2</a>
-      </nav>
-    </div>
+    <a class="brand" href="/" aria-label="Isaac Conteh, home">Isaac Conteh</a>
     <nav aria-label="Primary">
       <ul>
         {nav.map((n) => <li class={n.label === 'Contact' ? 'hide-xs' : undefined}><a href={n.href} aria-current={n.current ? 'page' : undefined}>{n.label}</a></li>)}
@@ -30,12 +23,6 @@ const nav = [link(onHome2 ? '/home-2#work' : '/#work', 'Work'), link('/about', '
 <style>
   .hdr { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid var(--line); }
   .hdr-in { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 16px; }
-  .left { display: flex; align-items: center; gap: 16px; }
-  .switch { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; font-size: 0.8rem; }
-  .switch a { text-decoration: none; padding: 4px 10px; border-radius: 999px; color: var(--muted); font-weight: 600; white-space: nowrap; }
-  .switch a:hover { color: var(--ink); text-decoration: none; }
-  .switch a[aria-current='page'] { background: var(--ink); color: var(--bg); }
-  @media (max-width: 720px) { .switch .lg { display: none; } .switch a { padding: 4px 9px; } }
   @media (max-width: 400px) { .brand { font-size: 1.25rem; } .left { gap: 10px; } }
   .brand { white-space: nowrap; }
   @media (max-width: 480px) { .hide-xs { display: none; } }
